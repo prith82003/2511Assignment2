@@ -4,7 +4,7 @@
 # If you feel for some reason this file MUST be changed, please post on the course forum so it can
 # be discussed between you and course staff.
 #
-image: sneakypatriki/cs2511-gradle:latest
+image: cs2511docker/cs2511-gradle:latest
 
 stages:
   - lint
