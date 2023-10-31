@@ -57,7 +57,10 @@ public class Bomb extends Entity implements InventoryItem, IOverlappable {
     }
 
     public void onPutDown(GameMap map, Position p) {
-        translate(Position.calculatePositionBetween(getPosition(), p));
+        Position offset = Position.calculatePositionBetween(getPosition(), p);
+        Position newPos = Position.translateBy(getPosition(), offset);
+        setPosition(newPos);
+
         map.addEntity(this);
         this.state = State.PLACED;
         List<Position> adjPosList = getPosition().getCardinallyAdjacentPositions();
