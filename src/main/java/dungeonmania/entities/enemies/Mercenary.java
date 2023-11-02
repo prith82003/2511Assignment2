@@ -11,7 +11,7 @@ import dungeonmania.entities.collectables.potions.InvisibilityPotion;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class Mercenary extends movingEnemy implements Interactable {
+public class Mercenary extends MovingEnemy implements Interactable {
     public static final int DEFAULT_BRIBE_AMOUNT = 1;
     public static final int DEFAULT_BRIBE_RADIUS = 1;
     public static final double DEFAULT_ATTACK = 5.0;
