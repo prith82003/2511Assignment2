@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import dungeonmania.Game;
 import dungeonmania.map.GameMap;
 
-public abstract class movingEnemy extends Enemy {
-    public movingEnemy(Position position, double health, double attack) {
+public abstract class MovingEnemy extends Enemy {
+    public MovingEnemy(Position position, double health, double attack) {
         super(position, health, attack);
     }
 

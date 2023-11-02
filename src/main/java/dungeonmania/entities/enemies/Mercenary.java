@@ -1,9 +1,5 @@
 package dungeonmania.entities.enemies;
 
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.entities.Entity;
@@ -13,10 +9,9 @@ import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
 import dungeonmania.map.GameMap;
-import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class Mercenary extends movingEnemy implements Interactable {
+public class Mercenary extends MovingEnemy implements Interactable {
     public static final int DEFAULT_BRIBE_AMOUNT = 1;
     public static final int DEFAULT_BRIBE_RADIUS = 1;
     public static final double DEFAULT_ATTACK = 5.0;

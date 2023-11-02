@@ -5,7 +5,7 @@ import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class ZombieToast extends movingEnemy {
+public class ZombieToast extends MovingEnemy {
     public static final double DEFAULT_HEALTH = 5.0;
     public static final double DEFAULT_ATTACK = 6.0;
 
