@@ -90,7 +90,7 @@ public class Mercenary extends movingEnemy implements Interactable {
         } else if (map.getPlayer().getEffectivePotion() instanceof InvisibilityPotion) {
             nextPos = moveRandom(map);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvincibilityPotion) {
-            nextPos = moveTowards(map);
+            nextPos = moveAway(map);
         } else {
             // Follow hostile
             nextPos = map.dijkstraPathFind(getPosition(), player.getPosition(), this);

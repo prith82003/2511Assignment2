@@ -15,7 +15,7 @@ public abstract class movingEnemy extends Enemy {
         super(position, health, attack);
     }
 
-    public Position moveTowards(GameMap map) {
+    public Position moveAway(GameMap map) {
         Position plrDiff = Position.calculatePositionBetween(map.getPlayer().getPosition(), getPosition());
 
         Position moveX = (plrDiff.getX() >= 0) ? Position.translateBy(getPosition(), Direction.RIGHT)

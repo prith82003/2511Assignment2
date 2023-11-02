@@ -18,7 +18,7 @@ public class ZombieToast extends movingEnemy {
         Position nextPos;
         GameMap map = game.getMap();
         if (map.getPlayer().getEffectivePotion() instanceof InvincibilityPotion) {
-            nextPos = moveTowards(map);
+            nextPos = moveAway(map);
         } else {
             nextPos = moveRandom(map);
         }
