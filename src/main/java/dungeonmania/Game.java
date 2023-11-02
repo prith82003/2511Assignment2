@@ -6,16 +6,18 @@ import java.util.UUID;
 
 import dungeonmania.battles.BattleFacade;
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.entities.enemies.ZombieToastSpawner;
+import dungeonmania.entities.entity_factory.EntityFactory;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.goals.Goal;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class Game {
     private String id;
@@ -202,5 +204,17 @@ public class Game {
 
     public BattleFacade getBattleFacade() {
         return battleFacade;
+    }
+
+    public Entity createEntity(String entity, Position position) {
+        return entityFactory.createEntity(entity, position);
+    }
+
+    public void spawnZombie(ZombieToastSpawner spawner) {
+        entityFactory.spawnZombie(this, spawner);
+    }
+
+    public void spawnSpider() {
+        entityFactory.spawnSpider(this);
     }
 }

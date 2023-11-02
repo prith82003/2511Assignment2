@@ -13,6 +13,8 @@ public final class Position {
     public static final int DOOR_LAYER = 2;
     public static final int CHARACTER_LAYER = 3;
 
+    public static final Position ZERO = new Position(0, 0);
+
     private final int x;
     private final int y;
     private final int layer;

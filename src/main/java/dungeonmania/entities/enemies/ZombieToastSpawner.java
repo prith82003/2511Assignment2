@@ -16,7 +16,7 @@ public class ZombieToastSpawner extends Entity implements Interactable, IDestroy
     }
 
     public void spawn(Game game) {
-        game.getEntityFactory().spawnZombie(game, this);
+        game.spawnZombie(this);
     }
 
     @Override
