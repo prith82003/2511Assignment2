@@ -77,16 +77,22 @@ public class Mercenary extends movingEnemy implements Interactable {
             isAdjacentToPlayer = true;
     }
 
+    public Position moveToward(GameMap map, Player player) {
+        Position nextPos;
+        nextPos = isAdjacentToPlayer ? player.getPreviousDistinctPosition()
+                : map.dijkstraPathFind(getPosition(), player.getPosition(), this);
+        if (!isAdjacentToPlayer && Position.isAdjacent(player.getPosition(), nextPos))
+            isAdjacentToPlayer = true;
+        return nextPos;
+    }
+
     @Override
     public void move(Game game) {
         Position nextPos;
         GameMap map = game.getMap();
         Player player = game.getPlayer();
         if (allied) {
-            nextPos = isAdjacentToPlayer ? player.getPreviousDistinctPosition()
-                    : map.dijkstraPathFind(getPosition(), player.getPosition(), this);
-            if (!isAdjacentToPlayer && Position.isAdjacent(player.getPosition(), nextPos))
-                isAdjacentToPlayer = true;
+            nextPos = moveToward(map, player);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvisibilityPotion) {
             nextPos = moveRandom(map);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvincibilityPotion) {
