@@ -222,4 +222,8 @@ public class Game {
     public int getNumEnemiesKilled() {
         return player.getNumEnemiesKilled();
     }
+
+    public void destroyEntity(Entity entity) {
+        map.destroyEntity(entity);
+    }
 }
