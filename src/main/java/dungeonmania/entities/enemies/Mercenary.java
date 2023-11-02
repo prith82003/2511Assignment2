@@ -16,7 +16,7 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class Mercenary extends Enemy implements Interactable {
+public class Mercenary extends movingEnemy implements Interactable {
     public static final int DEFAULT_BRIBE_AMOUNT = 1;
     public static final int DEFAULT_BRIBE_RADIUS = 1;
     public static final double DEFAULT_ATTACK = 5.0;
@@ -88,45 +88,9 @@ public class Mercenary extends Enemy implements Interactable {
             if (!isAdjacentToPlayer && Position.isAdjacent(player.getPosition(), nextPos))
                 isAdjacentToPlayer = true;
         } else if (map.getPlayer().getEffectivePotion() instanceof InvisibilityPotion) {
-            // Move random
-            Random randGen = new Random();
-            List<Position> pos = getPosition().getCardinallyAdjacentPositions();
-            pos = pos.stream().filter(p -> map.canMoveTo(this, p)).collect(Collectors.toList());
-            if (pos.size() == 0) {
-                nextPos = getPosition();
-                map.moveTo(this, nextPos);
-            } else {
-                nextPos = pos.get(randGen.nextInt(pos.size()));
-                map.moveTo(this, nextPos);
-            }
+            nextPos = moveRandom(map);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvincibilityPotion) {
-            Position plrDiff = Position.calculatePositionBetween(map.getPlayer().getPosition(), getPosition());
-
-            Position moveX = (plrDiff.getX() >= 0) ? Position.translateBy(getPosition(), Direction.RIGHT)
-                    : Position.translateBy(getPosition(), Direction.LEFT);
-            Position moveY = (plrDiff.getY() >= 0) ? Position.translateBy(getPosition(), Direction.UP)
-                    : Position.translateBy(getPosition(), Direction.DOWN);
-            Position offset = getPosition();
-            if (plrDiff.getY() == 0 && map.canMoveTo(this, moveX))
-                offset = moveX;
-            else if (plrDiff.getX() == 0 && map.canMoveTo(this, moveY))
-                offset = moveY;
-            else if (Math.abs(plrDiff.getX()) >= Math.abs(plrDiff.getY())) {
-                if (map.canMoveTo(this, moveX))
-                    offset = moveX;
-                else if (map.canMoveTo(this, moveY))
-                    offset = moveY;
-                else
-                    offset = getPosition();
-            } else {
-                if (map.canMoveTo(this, moveY))
-                    offset = moveY;
-                else if (map.canMoveTo(this, moveX))
-                    offset = moveX;
-                else
-                    offset = getPosition();
-            }
-            nextPos = offset;
+            nextPos = moveTowards(map);
         } else {
             // Follow hostile
             nextPos = map.dijkstraPathFind(getPosition(), player.getPosition(), this);
