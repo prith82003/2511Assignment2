@@ -1,3 +1,5 @@
+Task 1a:
+
 i. Look inside src/main/java/dungeonmania/entities/enemies. Where can you notice an instance of repeated code? Note down the particular offending lines/methods/fields.
 
 Lines 26 - 53 in the the move method from the ZombieToast class contains the exact same code as lines 102 - 129 from the move method in the Mercenary class. These lines of code both make the enemy move away from the player. Furthermore, lines 55 - 61 in ZombieToast are the same as lines 91 - 101. This code makes the enemy movement random.
@@ -7,3 +9,14 @@ ii. What Design Pattern could be used to improve the quality of the code and avo
 The template method is an effective design pattern as it allows for the movement of the enemies classes to be broken into different steps, in which some of these classes both share. Since classes share similar steps, it can then be put into a superclass and reduce duplicate code. For instance, ZombieToast and Mercenary both move randomly and move away from the player in certain scenarios. Since these processes are similar 'steps' in code, template method allows us to break the algorithm down into the superclass and input these methods into the concrete subclasses when needed.
 
 iii. First of all, complying with the template method, I created an abstract super class called movingEnemy, in which Mercenary and ZombieToast both extend off. Even though Spider also moves, its movement characteristics do not show any similarity with the other two. The codes mentioned in question (i) above both serve the same purpose of moving randomly or away from the player. Therefore I implemented these methods into movingEnemy and called it in Mercenary and ZombieToast when needed. This drastically reduces duplicate code and is also easier to understand, since the function names are very logical and easy to follow, such as 'if invisible, move randomly'.
+
+
+Task 1d:
+
+i. What code smell is present in the above description?
+
+The code smell in the collectable entities resembles 'Shotgun Surgery', where any small changes you make require multiple different classes to also be altered. In this case, the same onOverlap method was being used in all classes (except Bomb.java).
+
+ii. Refactor the code to resolve the smell and the underlying problem causing it.
+
+I utilised the move method, in which the onOverlap method was implemented into a new superclass called collectables. Collectables reflect all the classes in the repository execept InvincibilityPotion and InvisibilityPotion. As a result, all the duplicate code in classes Wood, Treasure, Sword, Key and Potion were removed and no more modification issues will arise.
