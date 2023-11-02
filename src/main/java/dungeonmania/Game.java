@@ -28,6 +28,7 @@ public class Game {
     private BattleFacade battleFacade;
     private EntityFactory entityFactory;
     private boolean isInTick = false;
+
     public static final int PLAYER_MOVEMENT = 0;
     public static final int PLAYER_MOVEMENT_CALLBACK = 1;
     public static final int AI_MOVEMENT = 2;
@@ -216,5 +217,9 @@ public class Game {
 
     public void spawnSpider() {
         entityFactory.spawnSpider(this);
+    }
+
+    public int getNumEnemiesKilled() {
+        return player.getNumEnemiesKilled();
     }
 }

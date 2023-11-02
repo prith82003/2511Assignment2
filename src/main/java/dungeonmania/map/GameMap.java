@@ -204,6 +204,7 @@ public class GameMap {
     public void destroyEntity(Entity entity) {
         removeNode(entity);
 
+        System.out.println("entity: " + entity.toString());
         if (entity instanceof IDestroyable)
             ((IDestroyable) entity).onDestroy(this);
     }

@@ -16,6 +16,8 @@ public class BattleStatistics {
     private boolean invincible;
     private boolean enabled;
 
+    private int numEnemiesKilled = 0;
+
     public BattleStatistics(double health, double attack, double defence, double attackMagnifier,
             double damageReducer) {
         this.health = health;
@@ -57,6 +59,12 @@ public class BattleStatistics {
             target.setHealth(target.getHealth() - damageOnTarget);
             rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
         }
+
+        if (self.health > 0)
+            self.numEnemiesKilled++;
+        else
+            target.numEnemiesKilled++;
+
         return rounds;
     }
 
@@ -119,5 +127,9 @@ public class BattleStatistics {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public int getNumEnemiesKilled() {
+        return numEnemiesKilled;
     }
 }
