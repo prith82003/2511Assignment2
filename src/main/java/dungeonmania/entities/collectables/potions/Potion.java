@@ -17,11 +17,6 @@ public abstract class Potion extends Collectable implements BattleItem {
     }
 
     @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
-    }
-
-    @Override
     public void onDestroy(GameMap gameMap) {
         return;
     }

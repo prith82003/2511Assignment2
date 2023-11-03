@@ -24,11 +24,6 @@ public class Sword extends Collectable implements BattleItem {
     }
 
     @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
-    }
-
-    @Override
     public void onMovedAway(GameMap map, Entity entity) {
         return;
     }
