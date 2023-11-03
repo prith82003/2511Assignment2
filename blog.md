@@ -28,7 +28,7 @@ i. Name the code smell present in the above code. Identify all subclasses of Ent
 
 ii. Redesign the inheritance structure to solve the problem, in doing so remove the smells.
 
-[In order to rectify this issue, we can create individual interfaces for each function (OnOverlap, OnDestroy, OnMoveAway) and the entities that need these functions can implement those interfaces. In GameMap and Game classes, we can filter the getEntities() to include only those that implement the necessary interface and call the function on that interface.]
+[In order to rectify this issue, we can create individual interfaces for each function (OnOverlap, OnDestroy, OnMoveAway) and the entities that need these functions can implement those interfaces. In GameMap and Game classes, we can filter the getEntities() to include only those that implement the necessary interface and call the function on that interface. ]
 
 d) More Code Smells
 Links to your merge requests
