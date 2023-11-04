@@ -58,7 +58,9 @@ f) Open Refactoring
 Merge Request 1
 [Removed all calls of deprecated functions, updated functionality to match with new setPosition function in entity.]
 Merge Request 2
-[Refactored the way build criteria was checked when building inventory items. Factory pattern was implemented to instantiate new items.]
+[Refactored the way build criteria was checked when building inventory items. Factory pattern was implemented to instantiate new items. 
+Composite pattern was added in order to evaluate if criteria for build materials is met. New buildable items extend Buildable class and 
+must provide their criteria to be built into constructor.]
 Add all other changes you made in the same format here:
 
 Task 2) Evolution of Requirements 👽
