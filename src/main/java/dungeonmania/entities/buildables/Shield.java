@@ -2,10 +2,16 @@ package dungeonmania.entities.buildables;
 
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.BattleStatisticsBuilder;
 
 public class Shield extends Buildable {
     private int durability;
     private double defence;
+
+    private static final double SHIELD_HEALTH = 0;
+    private static final double SHIELD_ATTACK = 0;
+    private static final double SHIELD_MAGNIFIER = 1;
+    private static final double SHIELD_REDUCER = 1;
 
     public Shield(int durability, double defence) {
         super(null);
@@ -23,7 +29,10 @@ public class Shield extends Buildable {
 
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
-        return BattleStatistics.applyBuff(origin, new BattleStatistics(0, 0, defence, 1, 1));
+        BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+        builder.setHealth(SHIELD_HEALTH).setAttack(SHIELD_ATTACK).setDefence(defence).setMagnifier(SHIELD_MAGNIFIER)
+                .setReducer(SHIELD_REDUCER);
+        return BattleStatistics.applyBuff(origin, builder.build());
     }
 
     @Override
