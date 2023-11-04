@@ -2,7 +2,7 @@ package dungeonmania.map;
 
 import org.json.JSONObject;
 
-import dungeonmania.entities.EntityFactory;
+import dungeonmania.entities.entity_factory.EntityFactory;
 
 public class GraphNodeFactory {
     public static GraphNode createEntity(JSONObject jsonEntity, EntityFactory factory) {

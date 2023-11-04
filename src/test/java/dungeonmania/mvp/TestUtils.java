@@ -170,6 +170,8 @@ public class TestUtils {
         assertEquals(1, countEntityOfType(entities, "player"));
         assertEquals(1, countEntityOfType(entities, "zombie_toast"));
 
+        System.out.println("zombie count: " + countEntityOfType(entities, "zombie_toast"));
+
         for (int i = 0; i < 3; i++) {
             response = controller.tick(Direction.RIGHT);
             // Check if there is a battle - if there is one of the player or zombie is dead

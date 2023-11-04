@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.json.JSONObject;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.Player;
+import dungeonmania.entities.entity_factory.EntityFactory;
 import dungeonmania.goals.Goal;
 import dungeonmania.goals.GoalFactory;
 import dungeonmania.map.GameMap;

@@ -3,23 +3,33 @@ package dungeonmania.entities.inventory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 import dungeonmania.entities.BattleItem;
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.EntityFactory;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.buildables.Bow;
-import dungeonmania.entities.collectables.Arrow;
-import dungeonmania.entities.collectables.Key;
+import dungeonmania.entities.buildables.BowBuildable;
+import dungeonmania.entities.buildables.BuildableRecipe;
+import dungeonmania.entities.buildables.ShieldBuildable;
 import dungeonmania.entities.collectables.Sword;
-import dungeonmania.entities.collectables.Treasure;
-import dungeonmania.entities.collectables.Wood;
+import dungeonmania.entities.entity_factory.EntityFactory;
+import dungeonmania.util.Position;
 
 public class Inventory {
     private List<InventoryItem> items = new ArrayList<>();
 
+    private static Map<String, BuildableRecipe> buildables = new HashMap<>() {
+        {
+            put("bow", new BowBuildable());
+            put("shield", new ShieldBuildable());
+        }
+    };
+
     public boolean add(InventoryItem item) {
         items.add(item);
+
         return true;
     }
 
@@ -27,51 +37,33 @@ public class Inventory {
         items.remove(item);
     }
 
-    public List<String> getBuildables() {
+    public void removeType(Class<? extends InventoryItem> itemType, int amount) {
+        for (int i = 0; i < items.size(); i++) {
+            if (itemType.isInstance(items.get(i))) {
+                items.remove(i);
+                i--;
+                amount--;
+                if (amount == 0)
+                    return;
+            }
+        }
+    }
 
-        int wood = count(Wood.class);
-        int arrows = count(Arrow.class);
-        int treasure = count(Treasure.class);
-        int keys = count(Key.class);
+    public List<String> getBuildables() {
         List<String> result = new ArrayList<>();
 
-        if (wood >= 1 && arrows >= 3) {
-            result.add("bow");
+        for (String entity : buildables.keySet()) {
+            if (buildables.get(entity).canConstruct(this, false))
+                result.add(entity);
         }
-        if (wood >= 2 && (treasure >= 1 || keys >= 1)) {
-            result.add("shield");
-        }
+
         return result;
     }
 
-    public InventoryItem checkBuildCriteria(Player p, boolean remove, boolean forceShield, EntityFactory factory) {
+    public InventoryItem checkBuildCriteria(Player p, boolean remove, String entity, EntityFactory factory) {
+        if (buildables.get(entity).canConstruct(p.getInventory(), remove))
+            return (InventoryItem) factory.createEntity(entity, Position.ZERO);
 
-        List<Wood> wood = getEntities(Wood.class);
-        List<Arrow> arrows = getEntities(Arrow.class);
-        List<Treasure> treasure = getEntities(Treasure.class);
-        List<Key> keys = getEntities(Key.class);
-
-        if (wood.size() >= 1 && arrows.size() >= 3 && !forceShield) {
-            if (remove) {
-                items.remove(wood.get(0));
-                items.remove(arrows.get(0));
-                items.remove(arrows.get(1));
-                items.remove(arrows.get(2));
-            }
-            return factory.buildBow();
-
-        } else if (wood.size() >= 2 && (treasure.size() >= 1 || keys.size() >= 1)) {
-            if (remove) {
-                items.remove(wood.get(0));
-                items.remove(wood.get(1));
-                if (treasure.size() >= 1) {
-                    items.remove(treasure.get(0));
-                } else {
-                    items.remove(keys.get(0));
-                }
-            }
-            return factory.buildShield();
-        }
         return null;
     }
 
