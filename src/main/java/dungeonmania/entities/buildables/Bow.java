@@ -2,9 +2,16 @@ package dungeonmania.entities.buildables;
 
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.BattleStatisticsBuilder;
 
 public class Bow extends Buildable {
     private int durability;
+
+    private static final double BOW_HEALTH = 0;
+    private static final double BOW_ATTACK = 0;
+    private static final double BOW_DEFENCE = 0;
+    private static final double BOW_MAGNIFIER = 2;
+    private static final double BOW_REDUCER = 1;
 
     public Bow(int durability) {
         super(null);
@@ -21,7 +28,10 @@ public class Bow extends Buildable {
 
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
-        return BattleStatistics.applyBuff(origin, new BattleStatistics(0, 0, 0, 2, 1));
+        BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+        builder.setHealth(BOW_HEALTH).setAttack(BOW_ATTACK).setDefence(BOW_DEFENCE).setMagnifier(BOW_MAGNIFIER)
+                .setReducer(BOW_REDUCER);
+        return BattleStatistics.applyBuff(origin, builder.build());
     }
 
     @Override
