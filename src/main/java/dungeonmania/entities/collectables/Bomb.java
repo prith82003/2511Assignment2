@@ -10,10 +10,9 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.IOverlappable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.Switch;
-import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.map.GameMap;
 
-public class Bomb extends Entity implements InventoryItem, IOverlappable {
+public class Bomb extends Collectable implements IOverlappable {
     public enum State {
         SPAWNED, INVENTORY, PLACED
     }
@@ -36,11 +35,6 @@ public class Bomb extends Entity implements InventoryItem, IOverlappable {
 
     public void notify(GameMap map) {
         explode(map);
-    }
-
-    @Override
-    public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
     }
 
     @Override
