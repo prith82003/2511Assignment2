@@ -56,7 +56,7 @@ ii. If you think the design is sufficient as it is, justify your decision. If yo
 
 f) Open Refactoring
 Merge Request 1
-[Briefly explain what you did]
+[Removed all calls of deprecated functions, updated functionality to match with new setPosition function in entity.]
 Merge Request 2
 [Briefly explain what you did]
 Add all other changes you made in the same format here:
