@@ -63,6 +63,9 @@ Composite pattern was added in order to evaluate if criteria for build materials
 must provide their criteria to be built into constructor.]
 Add all other changes you made in the same format here:
 
+Merge Request 3
+[Refactored Entity creation. Used factory pattern to instantiate new entities. moved EntityFactory to its own folder/package. EntityFactory takes in a string and returns the corresponding entity.]
+
 Task 2) Evolution of Requirements 👽
 
 
