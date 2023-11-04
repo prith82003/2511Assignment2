@@ -12,9 +12,19 @@ public class OrBuildMaterial implements IBuildMaterial {
     @Override
     public boolean canBuild(Inventory inventory, boolean remove) {
         for (IBuildMaterial material : materials) {
-            if (material.canBuild(inventory, false))
+            if (material.canBuild(inventory, remove))
                 return true;
         }
+
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        for (IBuildMaterial material : materials) {
+            str += material.toString() + " || ";
+        }
+        return str;
     }
 }

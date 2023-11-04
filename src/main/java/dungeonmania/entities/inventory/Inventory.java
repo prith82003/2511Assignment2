@@ -10,7 +10,9 @@ import dungeonmania.entities.BattleItem;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.buildables.Bow;
+import dungeonmania.entities.buildables.BowBuildable;
 import dungeonmania.entities.buildables.BuildableRecipe;
+import dungeonmania.entities.buildables.ShieldBuildable;
 import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.entity_factory.EntityFactory;
 import dungeonmania.util.Position;
@@ -18,12 +20,12 @@ import dungeonmania.util.Position;
 public class Inventory {
     private List<InventoryItem> items = new ArrayList<>();
 
-    private static Map<String, BuildableRecipe> buildables = new HashMap<>();
-
-    // add a method that adds an entry to the buildables map, make sure types match
-    public static void addBuildable(String key, BuildableRecipe buildable) {
-        buildables.put(key, buildable);
-    }
+    private static Map<String, BuildableRecipe> buildables = new HashMap<>() {
+        {
+            put("bow", new BowBuildable());
+            put("shield", new ShieldBuildable());
+        }
+    };
 
     public boolean add(InventoryItem item) {
         items.add(item);
@@ -50,9 +52,10 @@ public class Inventory {
     public List<String> getBuildables() {
         List<String> result = new ArrayList<>();
 
-        for (String entity : buildables.keySet())
+        for (String entity : buildables.keySet()) {
             if (buildables.get(entity).canConstruct(this, false))
                 result.add(entity);
+        }
 
         return result;
     }

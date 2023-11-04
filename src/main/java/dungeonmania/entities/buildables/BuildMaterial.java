@@ -15,12 +15,17 @@ public class BuildMaterial implements IBuildMaterial {
     @Override
     public boolean canBuild(Inventory inventory, boolean remove) {
         if (inventory.getEntities(item).size() >= amount) {
-            if (remove) {
+            if (remove)
                 inventory.removeType(item, amount);
-            }
+
             return true;
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return amount + " x " + item.getName();
     }
 }
