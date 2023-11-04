@@ -2,6 +2,7 @@ package dungeonmania.entities.collectables;
 
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.BattleStatisticsBuilder;
 import dungeonmania.entities.BattleItem;
 import dungeonmania.util.Position;
 
@@ -11,6 +12,11 @@ public class Sword extends Collectable implements BattleItem {
     public static final int DEFAULT_DURABILITY = 5;
     public static final double DEFAULT_DEFENCE = 0;
     public static final double DEFAULT_DEFENCE_SCALE_FACTOR = 1;
+
+    private static final double BUFF_SWORD_HEALTH = 0;
+    private static final double BUFF_SWORD_DEFENCE = 0;
+    private static final double BUFF_SWORD_MAGNIFIER = 1;
+    private static final double BUFF_SWORD_REDUCER = 1;
 
     private int durability;
     private double attack;
@@ -31,7 +37,10 @@ public class Sword extends Collectable implements BattleItem {
 
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
-        return BattleStatistics.applyBuff(origin, new BattleStatistics(0, attack, 0, 1, 1));
+        BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+        builder.setHealth(BUFF_SWORD_HEALTH).setAttack(attack).setDefence(BUFF_SWORD_DEFENCE)
+                .setMagnifier(BUFF_SWORD_MAGNIFIER).setReducer(BUFF_SWORD_REDUCER);
+        return BattleStatistics.applyBuff(origin, builder.build());
     }
 
     @Override

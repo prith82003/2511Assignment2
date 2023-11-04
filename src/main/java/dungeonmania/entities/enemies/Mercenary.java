@@ -2,6 +2,7 @@ package dungeonmania.entities.enemies;
 
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.BattleStatisticsBuilder;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
@@ -104,10 +105,18 @@ public class Mercenary extends MovingEnemy implements Interactable {
         return !allied && canBeBribed(player);
     }
 
+    private static final double ALLIED_HEALTH = 0;
+    private static final double ALLIED_MAGNIFIER = 1;
+    private static final double ALLIED_REDUCER = 1;
+
     @Override
     public BattleStatistics getBattleStatistics() {
         if (!allied)
             return super.getBattleStatistics();
-        return new BattleStatistics(0, allyAttack, allyDefence, 1, 1);
+
+        BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+        builder.setHealth(ALLIED_HEALTH).setAttack(allyAttack).setDefence(allyDefence).setMagnifier(ALLIED_MAGNIFIER)
+                .setReducer(ALLIED_REDUCER);
+        return builder.build();
     }
 }
