@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Position;
 
-public class ZombieToastSpawnerFactory implements IFactory {
+class ZombieToastSpawnerFactory implements IFactory {
     @Override
     public ZombieToastSpawner constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         int zombieSpawnRate = config.optInt("zombie_spawn_interval", ZombieToastSpawner.DEFAULT_SPAWN_INTERVAL);
