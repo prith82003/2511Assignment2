@@ -26,6 +26,12 @@ public abstract class Entity {
         this.facing = null;
     }
 
+    /**
+     * Returns if an entity can move onto this entity.
+     * @param map The active map
+     * @param entity The entity that wants to move onto this entity
+     * @return If the entity can move onto this entity
+     */
     public boolean canMoveOnto(GameMap map, Entity entity) {
         return false;
     }
