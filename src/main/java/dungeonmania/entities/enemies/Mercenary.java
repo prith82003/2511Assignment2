@@ -105,7 +105,6 @@ public class Mercenary extends MovingEnemy implements Interactable {
         return !allied && canBeBribed(player);
     }
 
-    private static final double ALLIED_HEALTH = 0;
     private static final double ALLIED_MAGNIFIER = 1;
     private static final double ALLIED_REDUCER = 1;
 
@@ -115,8 +114,7 @@ public class Mercenary extends MovingEnemy implements Interactable {
             return super.getBattleStatistics();
 
         BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
-        builder.setHealth(ALLIED_HEALTH).setAttack(allyAttack).setDefence(allyDefence).setMagnifier(ALLIED_MAGNIFIER)
-                .setReducer(ALLIED_REDUCER);
+        builder.setAttack(allyAttack).setDefence(allyDefence).setMagnifier(ALLIED_MAGNIFIER).setReducer(ALLIED_REDUCER);
         return builder.build();
     }
 }

@@ -8,8 +8,6 @@ public class Shield extends Buildable {
     private int durability;
     private double defence;
 
-    private static final double SHIELD_HEALTH = 0;
-    private static final double SHIELD_ATTACK = 0;
     private static final double SHIELD_MAGNIFIER = 1;
     private static final double SHIELD_REDUCER = 1;
 
@@ -30,8 +28,7 @@ public class Shield extends Buildable {
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
         BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
-        builder.setHealth(SHIELD_HEALTH).setAttack(SHIELD_ATTACK).setDefence(defence).setMagnifier(SHIELD_MAGNIFIER)
-                .setReducer(SHIELD_REDUCER);
+        builder.setDefence(defence).setMagnifier(SHIELD_MAGNIFIER).setReducer(SHIELD_REDUCER);
         return BattleStatistics.applyBuff(origin, builder.build());
     }
 

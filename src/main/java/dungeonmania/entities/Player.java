@@ -38,8 +38,7 @@ public class Player extends Entity implements Battleable, IOverlappable {
     public Player(Position position, double health, double attack) {
         super(position);
         BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
-        builder.setHealth(health).setAttack(attack).setDefence(0)
-                .setMagnifier(BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER)
+        builder.setHealth(health).setAttack(attack).setMagnifier(BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER)
                 .setReducer(BattleStatistics.DEFAULT_PLAYER_DAMAGE_REDUCER);
 
         battleStatistics = builder.build();
@@ -166,9 +165,6 @@ public class Player extends Entity implements Battleable, IOverlappable {
         return inventory.count(itemType);
     }
 
-    private static final double INVINCIBLE_HEALTH = 0;
-    private static final double INVINCIBLE_ATTACK = 0;
-    private static final double INVINCIBLE_DEFENCE = 0;
     private static final double INVINCIBLE_MAGNIFIER = 1;
     private static final double INVINCIBLE_REDUCER = 1;
     private static final boolean INVINCIBLE_INVINCIBLE = true;
@@ -179,15 +175,13 @@ public class Player extends Entity implements Battleable, IOverlappable {
     public BattleStatistics applyBuff(BattleStatistics origin) {
         if (state.isInvincible()) {
             BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
-            builder.setHealth(INVINCIBLE_HEALTH).setAttack(INVINCIBLE_ATTACK).setDefence(INVINCIBLE_DEFENCE)
-                    .setMagnifier(INVINCIBLE_MAGNIFIER).setReducer(INVINCIBLE_REDUCER)
+            builder.setMagnifier(INVINCIBLE_MAGNIFIER).setReducer(INVINCIBLE_REDUCER)
                     .setInvincible(INVINCIBLE_INVINCIBLE).setEnabled(INVINCIBLE_ENABLED);
 
             return BattleStatistics.applyBuff(origin, builder.build());
         } else if (state.isInvisible()) {
             BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
-            builder.setHealth(0).setAttack(0).setDefence(0).setMagnifier(1).setReducer(1)
-                    .setEnabled(INVISIBILE_ENABLED);
+            builder.setMagnifier(INVINCIBLE_MAGNIFIER).setReducer(INVINCIBLE_REDUCER).setEnabled(INVISIBILE_ENABLED);
 
             return BattleStatistics.applyBuff(origin, builder.build());
         }
