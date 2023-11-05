@@ -10,6 +10,12 @@ public class BattleStatisticsBuilder {
     private boolean enabled;
 
     public BattleStatisticsBuilder() {
+        this.health = 0.0;
+        this.attack = 0.0;
+        this.defence = 0.0;
+        this.magnifier = 0.0;
+        this.reducer = 0.0;
+
         this.invincible = false;
         this.enabled = true;
     }

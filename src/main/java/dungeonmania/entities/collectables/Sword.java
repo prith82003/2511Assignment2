@@ -13,8 +13,6 @@ public class Sword extends Collectable implements BattleItem {
     public static final double DEFAULT_DEFENCE = 0;
     public static final double DEFAULT_DEFENCE_SCALE_FACTOR = 1;
 
-    private static final double BUFF_SWORD_HEALTH = 0;
-    private static final double BUFF_SWORD_DEFENCE = 0;
     private static final double BUFF_SWORD_MAGNIFIER = 1;
     private static final double BUFF_SWORD_REDUCER = 1;
 
@@ -38,8 +36,7 @@ public class Sword extends Collectable implements BattleItem {
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
         BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
-        builder.setHealth(BUFF_SWORD_HEALTH).setAttack(attack).setDefence(BUFF_SWORD_DEFENCE)
-                .setMagnifier(BUFF_SWORD_MAGNIFIER).setReducer(BUFF_SWORD_REDUCER);
+        builder.setAttack(attack).setMagnifier(BUFF_SWORD_MAGNIFIER).setReducer(BUFF_SWORD_REDUCER);
         return BattleStatistics.applyBuff(origin, builder.build());
     }
 
