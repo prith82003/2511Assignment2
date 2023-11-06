@@ -1,17 +1,17 @@
 package dungeonmania.entities.enemies;
 
-import dungeonmania.entities.Entity;
+import dungeonmania.Game;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class SnakeBody extends Entity implements ISnake {
+public class SnakeBody extends Enemy implements ISnake {
     private Position position;
     private Position prevPosition;
 
     private SnakeHead head;
 
     public SnakeBody(Position position, SnakeHead head) {
-        super(position);
+        super(position, head.getBattleStatistics().getHealth(), head.getBattleStatistics().getAttack());
         this.position = position;
         this.prevPosition = position;
 
@@ -30,5 +30,15 @@ public class SnakeBody extends Entity implements ISnake {
 
     public boolean isInvisible() {
         return head.isInvisible();
+    }
+
+    @Override
+    public void move(Game game) {
+    }
+
+    @Override
+    public void onDestroy(GameMap map) {
+        head.removeBody(this, map);
+        super.onDestroy(map);
     }
 }

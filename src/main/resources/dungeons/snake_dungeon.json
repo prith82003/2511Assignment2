@@ -1,6 +1,11 @@
 {
   "entities": [
     {
+      "x": 18,
+      "y": 0,
+      "type": "treasure"
+    },
+    {
       "x": 8,
       "y": 3,
       "type": "sword"
@@ -79,11 +84,6 @@
       "x": 16,
       "y": 5,
       "type": "wall"
-    },
-    {
-      "x": 18,
-      "y": 5,
-      "type": "treasure"
     },
     {
       "x": 4,

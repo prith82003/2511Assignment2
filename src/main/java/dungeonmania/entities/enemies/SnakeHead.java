@@ -122,19 +122,16 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
     }
 
     private void applyArrowBuff() {
-        System.out.println("ar");
         BattleStatistics stats = getBattleStatistics();
         stats.setAttack(stats.getAttack() + arrowBuff);
     }
 
     private void applyTreasureBuff() {
-        System.out.println("t");
         BattleStatistics stats = getBattleStatistics();
         stats.setHealth(stats.getHealth() + treasureHealthBuff);
     }
 
     private void applyKeyBuff() {
-        System.out.println("k");
         BattleStatistics stats = getBattleStatistics();
         stats.setHealth(stats.getHealth() * keyHealthBuff);
     }
@@ -149,5 +146,29 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
 
     public boolean isInvisible() {
         return isInvisible;
+    }
+
+    @Override
+    public void onDestroy(GameMap map) {
+        map.destroyEntity(parts.get(0));
+        super.onDestroy(map);
+    }
+
+    protected void removeBody(SnakeBody part, GameMap map) {
+        boolean remove = false;
+
+        SnakeBody nextPart = null;
+        for (SnakeBody p : parts) {
+            if (remove) {
+                nextPart = p;
+                break;
+            }
+
+            if (p == part)
+                remove = true;
+        }
+
+        if (nextPart != null)
+            map.destroyEntity(nextPart);
     }
 }
