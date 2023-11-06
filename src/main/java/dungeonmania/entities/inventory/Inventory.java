@@ -24,6 +24,9 @@ public class Inventory {
         {
             put("bow", new BowBuildable());
             put("shield", new ShieldBuildable());
+            // SCPRETYTRE
+            // ARMORT
+
         }
     };
 

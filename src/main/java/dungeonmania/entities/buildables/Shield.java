@@ -25,6 +25,9 @@ public class Shield extends Buildable {
         }
     }
 
+    // HAVE SCEPTRE AND MIDNIGHT ARMOUT HERE FOR BUILDIING
+    // FOR EACH CREATE SCRPETRE BUILDABLE AND ARMOUTR BUILDABLE
+
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
         BattleStatisticsBuilder builder = new BattleStatisticsBuilder();

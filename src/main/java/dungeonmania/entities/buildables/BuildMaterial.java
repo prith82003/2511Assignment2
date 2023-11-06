@@ -7,6 +7,8 @@ public class BuildMaterial implements IBuildMaterial {
     private Class<? extends InventoryItem> item;
     private int amount;
 
+    //// SUNSRTONE DOESNT REMOVE IN SOME CASES
+
     public BuildMaterial(Class<? extends InventoryItem> item, int amount) {
         this.item = item;
         this.amount = amount;
