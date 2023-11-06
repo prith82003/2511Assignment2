@@ -1,6 +1,7 @@
 package dungeonmania.goals;
 
 import dungeonmania.Game;
+import dungeonmania.entities.enemies.ZombieToastSpawner;
 
 public class EnemyGoal implements Goal {
     private int target;
@@ -11,7 +12,8 @@ public class EnemyGoal implements Goal {
 
     @Override
     public boolean achieved(Game game) {
-        return game.getNumEnemiesKilled() >= target;
+        int numSpawners = game.getMap().getEntities(ZombieToastSpawner.class).size();
+        return game.getNumEnemiesKilled() >= target && numSpawners == 0;
     }
 
     @Override
