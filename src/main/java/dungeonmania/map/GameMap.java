@@ -134,9 +134,29 @@ public class GameMap {
         return !nodes.containsKey(position) || nodes.get(position).canMoveOnto(this, entity);
     }
 
+    //! Horrible implementation, but it works
+    public int getDijkstraDistance(Position src, Position dest, Entity entity) {
+        int distance = 0;
+        Position curr = src;
+        while (!Position.isAdjacent(dest, curr)) {
+            curr = dijkstraPathFind(curr, dest, entity, true);
+
+            if (curr == null)
+                return Integer.MAX_VALUE;
+
+            distance++;
+        }
+
+        return distance;
+    }
+
     public Position dijkstraPathFind(Position src, Position dest, Entity entity) {
+        return dijkstraPathFind(src, dest, entity, false);
+    }
+
+    public Position dijkstraPathFind(Position src, Position dest, Entity entity, boolean forceInvalid) {
         // if inputs are invalid, don't move
-        if (!nodes.containsKey(src) || !nodes.containsKey(dest))
+        if (!forceInvalid && (!nodes.containsKey(src) || !nodes.containsKey(dest)))
             return src;
 
         Map<Position, Integer> dist = new HashMap<>();
@@ -145,6 +165,7 @@ public class GameMap {
 
         prev.put(src, null);
         dist.put(src, 0);
+        dist.put(dest, Integer.MAX_VALUE);
 
         PriorityQueue<Position> q = new PriorityQueue<>((x, y) -> Integer
                 .compare(dist.getOrDefault(x, Integer.MAX_VALUE), dist.getOrDefault(y, Integer.MAX_VALUE)));
@@ -174,6 +195,7 @@ public class GameMap {
 
             neighbours.forEach(n -> {
                 int newDist = dist.get(curr) + (nodes.containsKey(n) ? nodes.get(n).getWeight() : 1);
+
                 if (newDist < dist.getOrDefault(n, Integer.MAX_VALUE)) {
                     q.remove(n);
                     dist.put(n, newDist);
@@ -182,6 +204,10 @@ public class GameMap {
                 }
             });
         }
+
+        if (dist.get(dest) == Integer.MAX_VALUE)
+            return null;
+
         Position ret = dest;
         if (prev.get(ret) == null || ret.equals(src))
             return src;

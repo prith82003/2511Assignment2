@@ -1,24 +1,26 @@
 package dungeonmania.entities.enemies;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import java.util.ArrayList;
 
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
-import dungeonmania.battles.BattleStatisticsBuilder;
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.Player;
+import dungeonmania.entities.ItemCollector;
 import dungeonmania.entities.collectables.Arrow;
+import dungeonmania.entities.collectables.Collectable;
 import dungeonmania.entities.collectables.Key;
 import dungeonmania.entities.collectables.Treasure;
-import dungeonmania.entities.collectables.potions.Potion;
+import dungeonmania.entities.collectables.potions.InvincibilityPotion;
+import dungeonmania.entities.collectables.potions.InvisibilityPotion;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class SnakeHead extends Enemy {
+public class SnakeHead extends Enemy implements ISnake, ItemCollector {
     private final double arrowBuff;
     private final double treasureHealthBuff;
     private final double keyHealthBuff;
@@ -26,56 +28,126 @@ public class SnakeHead extends Enemy {
     private List<SnakeBody> parts;
     private Position prevPosition;
 
-    private static Map<Class<? extends Entity>, BattleStatistics> FOOD_ITEMS = new HashMap<>() {
+    private boolean isInvincible;
+    private boolean isInvisible;
+
+    private final Map<Class<? extends Entity>, Runnable> foodItems = new HashMap<>() {
         {
-            put(Arrow.class, );
+            put(Arrow.class, () -> applyArrowBuff());
+            put(Treasure.class, () -> applyTreasureBuff());
+            put(Key.class, () -> applyKeyBuff());
+            put(InvisibilityPotion.class, () -> applyInvisibilityBuff());
+            put(InvincibilityPotion.class, () -> applyInvincibilityBuff());
         }
     };
 
     public SnakeHead(Position position, double health, double attack, double arrowBuff, double treasureHealthBuff,
-            double keyHealthBuff) {
+            double keyHealthBuff, boolean isInvincible, boolean isInvisible) {
         super(position, health, attack);
         this.arrowBuff = arrowBuff;
         this.treasureHealthBuff = treasureHealthBuff;
         this.keyHealthBuff = keyHealthBuff;
 
+        this.isInvincible = isInvincible;
+        this.isInvisible = isInvisible;
+
+        foodToEat = false;
+
         parts = new ArrayList<>();
-        initFoodMap();
-    }
-
-    private void initFoodMap() {
-
     }
 
     @Override
     public boolean canMoveOnto(GameMap map, Entity entity) {
-        return true;
+        return !(entity instanceof ISnake);
     }
 
+    private boolean foodToEat;
+
     @Override
-    public void onOverlap(GameMap map, Entity entity) {
-        if (FOOD_ITEMS.contains(entity.getClass())) {
-            onEat();
-            map.destroyEntity(entity);
+    public boolean pickUp(Collectable entity) {
+        if (foodItems.keySet().contains(entity.getClass())) {
+            foodToEat = true;
+            foodItems.get(entity.getClass()).run();
+            return true;
         }
+
+        return false;
     }
 
     @Override
     public void move(Game game) {
+        List<Entity> foodItems = game.getMap().getEntities().stream().filter(e -> e instanceof ISnakeFood)
+                .collect(Collectors.toList());
 
+        int shortestDistance = Integer.MAX_VALUE;
+        Entity closestFood = null;
+
+        for (Entity food : foodItems) {
+            int distance = game.getMap().getDijkstraDistance(getPosition(), food.getPosition(), this);
+            if (distance < shortestDistance) {
+                shortestDistance = distance;
+                closestFood = food;
+            }
+        }
+
+        if (closestFood != null) {
+            Position nextPos = game.getMap().dijkstraPathFind(getPosition(), closestFood.getPosition(), this);
+            if (nextPos != null) {
+                prevPosition = getPosition();
+                game.getMap().moveTo(this, nextPos);
+            }
+        }
+
+        Position nextPos = prevPosition;
+
+        for (SnakeBody part : parts) {
+            part.updatePosition(nextPos, game.getMap(), 0);
+            nextPos = part.getPrevPosition();
+        }
+
+        if (foodToEat)
+            onEat();
+
+        foodToEat = false;
     }
 
-    private void onEat(SnakeBody part) {
+    private void onEat() {
         // calculate next position
         Position newPos = prevPosition;
         if (parts.size() > 0)
             newPos = parts.get(parts.size() - 1).getPrevPosition();
 
-        SnakeBody newPart = new SnakeBody(newPos);
-        // Add new body part
+        SnakeBody newPart = new SnakeBody(newPos, this);
+        parts.add(newPart);
     }
 
-    private void applyFoodBuff(Class<? extends Entity> foodClass) {
+    private void applyArrowBuff() {
+        System.out.println("ar");
+        BattleStatistics stats = getBattleStatistics();
+        stats.setAttack(stats.getAttack() + arrowBuff);
+    }
 
+    private void applyTreasureBuff() {
+        System.out.println("t");
+        BattleStatistics stats = getBattleStatistics();
+        stats.setHealth(stats.getHealth() + treasureHealthBuff);
+    }
+
+    private void applyKeyBuff() {
+        System.out.println("k");
+        BattleStatistics stats = getBattleStatistics();
+        stats.setHealth(stats.getHealth() * keyHealthBuff);
+    }
+
+    private void applyInvisibilityBuff() {
+        isInvisible = true;
+    }
+
+    private void applyInvincibilityBuff() {
+        isInvincible = true;
+    }
+
+    public boolean isInvisible() {
+        return isInvisible;
     }
 }

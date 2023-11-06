@@ -8,6 +8,7 @@ import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.BattleStatisticsBuilder;
 import dungeonmania.battles.Battleable;
 import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.collectables.Collectable;
 import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.Potion;
@@ -22,7 +23,7 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class Player extends Entity implements Battleable, IOverlappable {
+public class Player extends Entity implements Battleable, IOverlappable, ItemCollector {
     public static final double DEFAULT_ATTACK = 5.0;
     public static final double DEFAULT_HEALTH = 5.0;
     private BattleStatistics battleStatistics;
@@ -95,7 +96,8 @@ public class Player extends Entity implements Battleable, IOverlappable {
         return inventory.getEntity(itemUsedId);
     }
 
-    public boolean pickUp(Entity item) {
+    @Override
+    public boolean pickUp(Collectable item) {
         if (item instanceof Treasure)
             collectedTreasureCount++;
         return inventory.add((InventoryItem) item);

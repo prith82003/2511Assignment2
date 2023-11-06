@@ -1,0 +1,22 @@
+{
+    "enemy_goal": 1,
+    "hydra_health_increase_amount": 1,
+    "hydra_health_increase_rate": 0.5,
+    "invincibility_potion_duration": 0,
+    "invisibility_potion_duration": 0,
+    "midnight_armour_attack": 2,
+    "midnight_armour_defence": 2,
+    "mind_control_duration": 3,
+    "player_attack": 0,
+    "player_health": 99999999,
+    "shield_defence": 0,
+    "shield_durability": 0,
+    "spider_attack": 0,
+    "spider_health": 0,
+    "spider_spawn_interval": 0,
+    "snake_attack": 5,
+    "snake_health": 100,
+    "snake_attack_arrow_buff": 5,
+    "snake_health_treasure_buff": 6,
+    "snake_health_key_buff": 9
+}
