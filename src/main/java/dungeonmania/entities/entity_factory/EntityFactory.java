@@ -60,7 +60,6 @@ public final class EntityFactory {
     }
 
     public Entity createEntity(String entityType, Position pos) {
-        System.out.println("entityType: " + entityType);
         return ENTITY_MAP.get(entityType).constructEntity(pos, config, null);
     }
 

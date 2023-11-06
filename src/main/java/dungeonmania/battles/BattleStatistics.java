@@ -38,6 +38,7 @@ public class BattleStatistics {
         this.reducer = damageReducer;
         this.invincible = isInvincible;
         this.enabled = isEnabled;
+        this.numEnemiesKilled = 0;
     }
 
     public static List<BattleRound> battle(BattleStatistics self, BattleStatistics target) {
