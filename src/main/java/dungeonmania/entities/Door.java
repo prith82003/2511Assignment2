@@ -37,6 +37,8 @@ public class Door extends Entity implements IOverlappable {
         if (hasKey(player)) {
             inventory.remove(key);
             open();
+        } else if (hasSunStone(player)) {
+            open();
         }
     }
 

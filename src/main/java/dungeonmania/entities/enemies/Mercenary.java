@@ -6,11 +6,16 @@ import dungeonmania.battles.BattleStatisticsBuilder;
 import dungeonmania.entities.Entity;
 import dungeonmania.entities.Interactable;
 import dungeonmania.entities.Player;
+import dungeonmania.entities.buildables.Sceptre;
+import dungeonmania.entities.collectables.SunStone;
 import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
+import dungeonmania.entities.inventory.Inventory;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
+
+import java.util.List;
 
 public class Mercenary extends MovingEnemy implements Interactable {
     public static final int DEFAULT_BRIBE_AMOUNT = 1;
@@ -20,6 +25,7 @@ public class Mercenary extends MovingEnemy implements Interactable {
 
     private int bribeAmount = Mercenary.DEFAULT_BRIBE_AMOUNT;
     private int bribeRadius = Mercenary.DEFAULT_BRIBE_RADIUS;
+    private int mindControlDuration;
 
     private double allyAttack;
     private double allyDefence;
@@ -52,15 +58,29 @@ public class Mercenary extends MovingEnemy implements Interactable {
      * @return
      */
     private boolean canBeBribed(Player player) {
-        return bribeRadius >= 0 && player.countEntityOfType(Treasure.class) >= bribeAmount;
+        Inventory inventory = player.getInventory();
+        if (inventory.getFirst(Sceptre.class) != null)
+            int mindControlDuration = inventory.returnFirst(Sceptre.class).getMindControlDuration()
+            return true;
+
+        return bribeRadius >= 0
+                && (player.countEntityOfType(Treasure.class) - player.countEntityOfType(SunStone.class)) >= bribeAmount;
     }
 
     /**
      * bribe the merc
      */
     private void bribe(Player player) {
-        for (int i = 0; i < bribeAmount; i++) {
+        List<Treasure> treasures = player.getInventory().getEntities(Treasure.class);
+        int treasuresUsed = bribeAmount;
+        for (Treasure t : treasures) {
+            if (treasuresUsed <= 0) {
+                break;
+            }
+            if (t instanceof SunStone)
+                continue;
             player.use(Treasure.class);
+            treasuresUsed--;
         }
 
     }
@@ -82,12 +102,16 @@ public class Mercenary extends MovingEnemy implements Interactable {
         return nextPos;
     }
 
+    public void mindControl(int mindControlDuration) {
+        mindControlDuration = getMindControlDuration();
+    }
+
     @Override
     public void move(Game game) {
         Position nextPos;
         GameMap map = game.getMap();
         Player player = game.getPlayer();
-        if (allied) {
+        if (allied || mindControlDuration > 0) {
             nextPos = moveToward(map, player);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvisibilityPotion) {
             nextPos = moveRandom(map);
@@ -98,6 +122,7 @@ public class Mercenary extends MovingEnemy implements Interactable {
             nextPos = map.dijkstraPathFind(getPosition(), player.getPosition(), this);
         }
         map.moveTo(this, nextPos);
+        mindControlDuration--;
     }
 
     @Override
