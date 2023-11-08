@@ -40,6 +40,8 @@ public class Portal extends Entity implements IOverlappable {
     }
 
     private void doTeleport(GameMap map, Entity entity) {
+        System.out.println("Teleporting: " + entity);
+
         Position destination = pair.getPosition().getCardinallyAdjacentPositions().stream()
                 .filter(dest -> map.canMoveTo(entity, dest)).findAny().orElse(null);
         if (destination != null) {

@@ -25,6 +25,7 @@ public class GameMap {
     private Game game;
     private Map<Position, GraphNode> nodes = new HashMap<>();
     private Player player;
+    private static GameMap instance;
 
     /**
      * Initialise the game map
@@ -35,10 +36,15 @@ public class GameMap {
      * 5. more...
      */
     public void init() {
+        instance = this;
         initPairPortals();
         initRegisterMovables();
         initRegisterSpawners();
         initRegisterBombsAndSwitches();
+    }
+
+    public static GameMap getInstance() {
+        return instance;
     }
 
     private void initRegisterBombsAndSwitches() {

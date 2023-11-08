@@ -1,11 +1,11 @@
 package dungeonmania.entities.enemies;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import java.util.ArrayList;
 
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
@@ -42,18 +42,35 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
     };
 
     public SnakeHead(Position position, double health, double attack, double arrowBuff, double treasureHealthBuff,
-            double keyHealthBuff, boolean isInvincible, boolean isInvisible) {
+            double keyHealthBuff) {
         super(position, health, attack);
         this.arrowBuff = arrowBuff;
         this.treasureHealthBuff = treasureHealthBuff;
         this.keyHealthBuff = keyHealthBuff;
 
-        this.isInvincible = isInvincible;
-        this.isInvisible = isInvisible;
+        this.isInvincible = false;
+        this.isInvisible = false;
 
         foodToEat = false;
 
-        parts = new ArrayList<>();
+        parts = new LinkedList<>();
+    }
+
+    protected SnakeHead(Position position, SnakeHead snake, List<SnakeBody> parts) {
+        super(position, snake.getHealth(), snake.getAttack());
+        this.arrowBuff = snake.arrowBuff;
+        this.treasureHealthBuff = snake.treasureHealthBuff;
+        this.keyHealthBuff = snake.keyHealthBuff;
+
+        this.isInvincible = snake.isInvincible;
+        this.isInvisible = snake.isInvisible;
+
+        foodToEat = false;
+
+        this.parts = new LinkedList<>();
+        this.parts.addAll(parts);
+        parts.forEach((e) -> e.setHead(this));
+        GameMap.getInstance().moveTo(this, position);
     }
 
     @Override
@@ -96,28 +113,30 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
                 prevPosition = getPosition();
                 game.getMap().moveTo(this, nextPos);
             }
-        }
 
-        Position nextPos = prevPosition;
+            nextPos = prevPosition;
 
-        for (SnakeBody part : parts) {
-            part.updatePosition(nextPos, game.getMap(), 0);
-            nextPos = part.getPrevPosition();
+            for (int i = 0; i < parts.size(); i++) {
+                SnakeBody part = parts.get(i);
+                part.updatePosition(nextPos, game.getMap());
+                nextPos = part.getPrevPosition();
+            }
         }
 
         if (foodToEat)
-            onEat();
+            onEat(game.getMap());
 
         foodToEat = false;
     }
 
-    private void onEat() {
-        // calculate next position
+    private static int pieces = 0;
+
+    private void onEat(GameMap map) {
         Position newPos = prevPosition;
         if (parts.size() > 0)
             newPos = parts.get(parts.size() - 1).getPrevPosition();
 
-        SnakeBody newPart = new SnakeBody(newPos, this);
+        SnakeBody newPart = new SnakeBody(newPos, this, map, pieces++);
         parts.add(newPart);
     }
 
@@ -148,27 +167,64 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
         return isInvisible;
     }
 
+    protected boolean isInvincible() {
+        return isInvincible;
+    }
+
     @Override
     public void onDestroy(GameMap map) {
-        map.destroyEntity(parts.get(0));
+        if (parts.size() > 0)
+            map.destroyEntity(parts.get(0));
         super.onDestroy(map);
+        isInvincible = false;
+        isInvisible = false;
     }
 
     protected void removeBody(SnakeBody part, GameMap map) {
-        boolean remove = false;
+        int indexOfTarget = parts.indexOf(part);
+        if (indexOfTarget != -1) {
+            List<SnakeBody> partsToRemove = new ArrayList<>();
+            for (int i = indexOfTarget + 1; i < parts.size(); i++) {
+                partsToRemove.add(parts.get(i));
+            }
+            partsToRemove.forEach(map::destroyEntity);
+            parts.subList(indexOfTarget + 1, parts.size()).clear();
+        }
+    }
 
-        SnakeBody nextPart = null;
-        for (SnakeBody p : parts) {
-            if (remove) {
-                nextPart = p;
-                break;
+    protected void detachBody(SnakeBody part, GameMap map) {
+        int indexOfTarget = parts.indexOf(part);
+        if (indexOfTarget != -1 && indexOfTarget < parts.size() - 1) {
+            // Remove the body part after the target part.
+            SnakeBody partToDestroy = parts.remove(indexOfTarget + 1);
+            map.destroyEntity(partToDestroy);
+
+            // The new snake head is created at the position of the removed part.
+            var spawnPos = partToDestroy.getPosition();
+            List<SnakeBody> newBodyParts = new ArrayList<>();
+            // If there are additional body parts after the destroyed one, add them to the new snake head.
+            if (indexOfTarget + 1 < parts.size()) {
+                newBodyParts = new ArrayList<>(parts.subList(indexOfTarget + 1, parts.size()));
+
+                // Clear the parts from the original list.
+                parts.subList(indexOfTarget + 1, parts.size()).clear();
             }
 
-            if (p == part)
-                remove = true;
-        }
+            SnakeHead newHead = new SnakeHead(spawnPos, this, newBodyParts);
 
-        if (nextPart != null)
-            map.destroyEntity(nextPart);
+            // Add the new snake head to the map.
+            map.addEntity(newHead);
+
+            // Register the new snake head's movement.
+            map.getGame().register(() -> newHead.move(map.getGame()), Game.AI_MOVEMENT, newHead.getId());
+        }
+    }
+
+    public double getHealth() {
+        return getBattleStatistics().getHealth();
+    }
+
+    public double getAttack() {
+        return getBattleStatistics().getAttack();
     }
 }

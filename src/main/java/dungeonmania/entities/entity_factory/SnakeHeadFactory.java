@@ -15,6 +15,6 @@ public class SnakeHeadFactory implements IFactory {
         int treasureBuff = config.getInt("snake_health_treasure_buff");
         int keyBuff = config.getInt("snake_health_key_buff");
 
-        return new SnakeHead(pos, attack, health, arrowBuff, treasureBuff, keyBuff, false, false);
+        return new SnakeHead(pos, attack, health, arrowBuff, treasureBuff, keyBuff);
     }
 }
