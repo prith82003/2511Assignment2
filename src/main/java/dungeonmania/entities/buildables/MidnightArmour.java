@@ -5,36 +5,26 @@ import dungeonmania.battles.BattleStatistics;
 import dungeonmania.entities.BattleItem;
 
 public class MidnightArmour extends Buildable implements BattleItem {
-    private int midnightArmourAttack;
-    private int midnightArmourDefense;
+    private int attack;
+    private int defense;
 
-    public MidnightArmour(int midnightArmourAttack, int midnightArmourDefense) {
+    public MidnightArmour(int attack, int defense) {
         super(null);
-        this.midnightArmourAttack = midnightArmourAttack;
-        this.midnightArmourDefense = midnightArmourDefense;
+        this.attack = attack;
+        this.defense = defense;
     }
 
     @Override
     public void use(Game game) {
-
     }
 
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
-        return origin;
-    }
-
-    public int getMidnightArmourAttack() {
-        return midnightArmourAttack;
-    }
-
-    public int getMidnightArmourDefense() {
-        return midnightArmourDefense;
+        return BattleStatistics.applyBuff(origin, new BattleStatistics(0, attack, defense, 1, 1));
     }
 
     @Override
     public int getDurability() {
-        return 100;
+        return Integer.MAX_VALUE;
     }
-
 }

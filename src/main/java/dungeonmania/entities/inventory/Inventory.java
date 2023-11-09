@@ -27,7 +27,7 @@ public class Inventory {
             put("bow", new BowBuildable());
             put("shield", new ShieldBuildable());
             put("sceptre", new SceptreBuildable());
-            put("midnightArmour", new MidnightArmourBuildable());
+            put("midnight_armour", new MidnightArmourBuildable());
         }
     };
 
@@ -64,8 +64,9 @@ public class Inventory {
     }
 
     public InventoryItem checkBuildCriteria(Player p, boolean remove, String entity, EntityFactory factory) {
-        if (buildables.get(entity).canConstruct(p.getInventory(), remove))
+        if (buildables.get(entity).canConstruct(p.getInventory(), remove)) {
             return (InventoryItem) factory.createEntity(entity, Position.ZERO);
+        }
 
         return null;
     }
@@ -110,5 +111,4 @@ public class Inventory {
             return getFirst(Bow.class);
         return weapon;
     }
-
 }

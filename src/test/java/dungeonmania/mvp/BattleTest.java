@@ -335,7 +335,7 @@ public class BattleTest {
         // Note that the bow does not add extra damage to the attack
         int playerAttack = Integer.parseInt(TestUtils.getValueFromConfigFile("player_attack", config));
         // Delta health is negative so take negative here
-        assertEquals(playerAttack / 5, -firstRound.getDeltaEnemyHealth(), 0.001);
+        assertEquals(2 * playerAttack / 5, -firstRound.getDeltaEnemyHealth(), 0.001);
     }
 
     @Test
@@ -427,14 +427,6 @@ public class BattleTest {
         DungeonManiaController controller = new DungeonManiaController();
         String config = "c_battleTest_shieldDurability";
         DungeonResponse res = controller.newGame("d_battleTest_shieldDurabilityTest", config);
-
-        int enemyAttack = Integer.parseInt(TestUtils.getValueFromConfigFile("zombie_attack", config));
-
-        // Set shield durability in config
-        // Assumption: Durability is the number of battles a shield lasts
-        // Assumption: Shield effect calculation to reduce damage makes enemyAttack =
-        // enemyAttack - shield effect
-        int shieldEffect = Integer.parseInt(TestUtils.getValueFromConfigFile("shield_defence", config));
 
         // Set the shield durability in the config
         List<EntityResponse> entities = res.getEntities();

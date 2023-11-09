@@ -10,8 +10,6 @@ public class BuildMaterial implements IBuildMaterial {
     private Class<? extends InventoryItem> item;
     private int amount;
 
-    //// SUNSRTONE DOESNT REMOVE IN SOME CASES
-
     public BuildMaterial(Class<? extends InventoryItem> item, int amount) {
         this.item = item;
         this.amount = amount;
@@ -19,9 +17,8 @@ public class BuildMaterial implements IBuildMaterial {
 
     @Override
     public boolean canBuild(Inventory inventory, boolean remove) {
-
         if ((item.equals(Treasure.class) && !item.equals(SunStone.class))) {
-            if (inventory.getEntities(item).size() >= amount) {
+            if (inventory.getEntities(item).size() - inventory.getEntities(SunStone.class).size() >= amount) {
                 if (remove) {
                     inventory.removeType(item, amount);
                 }

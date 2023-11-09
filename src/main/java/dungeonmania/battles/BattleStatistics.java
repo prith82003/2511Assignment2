@@ -56,6 +56,14 @@ public class BattleStatistics {
             double damageOnSelf = target.getMagnifier() * (target.getAttack() - self.getDefence()) / self.getReducer();
             double damageOnTarget = self.getMagnifier() * (self.getAttack() - target.getDefence())
                     / target.getReducer();
+            // System.out.println("Damage on Target: " + damageOnTarget + " = " + self.getMagnifier() + " * ("
+            //         + self.getAttack() + "-" + target.getDefence() + ") / " + target.getReducer());
+            // System.out.println("Damage on Self: " + damageOnSelf + " = " + target.getMagnifier() + " * ("
+            //         + target.getAttack() + "-" + self.getDefence() + ") / " + self.getReducer());
+            // System.out.println("Self Attack: " + self.getAttack());
+            // System.out.println("Target Attack: " + target.getAttack());
+            // System.out.println("Self Health: " + self.getHealth());
+            // System.out.println("Target Health: " + target.getHealth() + "\n");
             self.setHealth(self.getHealth() - damageOnSelf);
             target.setHealth(target.getHealth() - damageOnTarget);
             rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
@@ -71,7 +79,8 @@ public class BattleStatistics {
 
     public static BattleStatistics applyBuff(BattleStatistics origin, BattleStatistics buff) {
         return new BattleStatistics(origin.health + buff.health, origin.attack + buff.attack,
-                origin.defence + buff.defence, origin.magnifier, origin.reducer, buff.isInvincible(), buff.isEnabled());
+                origin.defence + buff.defence, origin.magnifier * buff.magnifier, origin.reducer * buff.reducer,
+                buff.isInvincible(), buff.isEnabled());
     }
 
     public double getHealth() {

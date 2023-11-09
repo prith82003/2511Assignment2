@@ -48,6 +48,7 @@ public final class EntityFactory {
             put("shield", new ShieldFactory());
             put("sun_stone", new SunStoneFactory());
             put("sceptre", new SceptreFactory());
+            put("midnight_armour", new MidnightArmourFactory());
         }
     };
 

@@ -62,12 +62,17 @@ public class Mercenary extends MovingEnemy implements Interactable {
      * @return
      */
     private boolean canBeBribed(Player player) {
-        System.out.println("mind controlled: " + mindControlled);
         if (allied || mindControlled) {
             return false;
         }
-        return bribeRadius >= 0
+        return inRange(player)
                 && (player.countEntityOfType(Treasure.class) - player.countEntityOfType(SunStone.class)) >= bribeAmount;
+    }
+
+    public boolean inRange(Player player) {
+        double xDist = this.getPosition().getX() - player.getPosition().getX();
+        double yDist = this.getPosition().getY() - player.getPosition().getY();
+        return (Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2)) <= bribeRadius);
     }
 
     private boolean canBeMindControlled(Player player) {
@@ -110,7 +115,6 @@ public class Mercenary extends MovingEnemy implements Interactable {
         Inventory inventory = player.getInventory();
         Sceptre sceptre = inventory.getFirst(Sceptre.class);
         sceptre.setDurability(sceptre.getDurability() - 1);
-        // System.out.println("AHASJAHSJAHSAJSHAJHAJHAJ");
         if (sceptre.getDurability() <= 0) {
             player.use(Sceptre.class);
         }
@@ -152,10 +156,8 @@ public class Mercenary extends MovingEnemy implements Interactable {
         if (allied) {
             nextPos = moveToward(map, player);
         } else if (mindControlled) {
-            System.out.println("MIND CONTROL DURATION 1: " + mindControlDuration);
             nextPos = moveToward(map, player);
             mindControlDuration--;
-            System.out.println("MIND CONTROL DURATION 2: " + mindControlDuration);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvisibilityPotion) {
             nextPos = moveRandom(map);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvincibilityPotion) {
@@ -175,7 +177,6 @@ public class Mercenary extends MovingEnemy implements Interactable {
 
     @Override
     public boolean isInteractable(Player player) {
-        System.out.println("IS INTERACTABLE: " + (canBeBribed(player) || canBeMindControlled(player)));
         return canBeBribed(player) || canBeMindControlled(player);
     }
 

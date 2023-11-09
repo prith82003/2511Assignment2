@@ -22,7 +22,6 @@ public class ZombieToastSpawner extends Entity implements Interactable, IDestroy
     @Override
     public void onDestroy(GameMap map) {
         Game g = map.getGame();
-        System.out.println("Destroyed");
         g.unsubscribe(getId());
     }
 
