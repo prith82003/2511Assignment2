@@ -1,6 +1,11 @@
 {
   "entities": [
     {
+      "x": 0,
+      "y": 0,
+      "type": "treasure"
+    },
+    {
       "x": 18,
       "y": 0,
       "type": "treasure"
@@ -13,7 +18,7 @@
     {
       "x": 9,
       "y": 3,
-      "type": "invincibility_potion"
+      "type": "treasure"
     },
     {
       "x": 10,
@@ -93,10 +98,20 @@
     {
       "x": 7,
       "y": 6,
-      "type": "invisibility_potion"
+      "type": "treasure"
     },
     {
       "x": 9,
+      "y": 6,
+      "type": "treasure"
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "type": "treasure"
+    },
+    {
+      "x": 12,
       "y": 6,
       "type": "treasure"
     },
@@ -116,10 +131,20 @@
       "type": "wall"
     },
     {
+      "x": 11,
+      "y": 7,
+      "type": "treasure"
+    },
+    {
       "key": "2222",
       "x": 12,
       "y": 7,
       "type": "key"
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "type": "treasure"
     },
     {
       "x": 16,

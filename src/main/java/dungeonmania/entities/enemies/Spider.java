@@ -7,7 +7,7 @@ import dungeonmania.entities.Boulder;
 import dungeonmania.entities.Entity;
 import dungeonmania.util.Position;
 
-public class Spider extends Enemy {
+public class Spider extends MovingEnemy {
     private List<Position> movementTrajectory;
     private int nextPositionElement;
     private boolean forward;

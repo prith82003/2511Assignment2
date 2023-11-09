@@ -49,6 +49,4 @@ public abstract class Enemy extends Entity implements Battleable, IOverlappable,
         Game g = map.getGame();
         g.unsubscribe(getId());
     }
-
-    public abstract void move(Game game);
 }

@@ -3,6 +3,7 @@ package dungeonmania.entities;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import dungeonmania.entities.enemies.ISnake;
 import dungeonmania.entities.enemies.Mercenary;
 import dungeonmania.entities.enemies.ZombieToast;
 import dungeonmania.map.GameMap;
@@ -28,7 +29,7 @@ public class Portal extends Entity implements IOverlappable {
 
     public boolean canTeleportTo(GameMap map, Entity entity) {
         List<Position> neighbours = getPosition().getCardinallyAdjacentPositions();
-        return neighbours.stream().allMatch(n -> map.canMoveTo(entity, n));
+        return neighbours.stream().allMatch(n -> map.canMoveTo(entity, n)) && !(entity instanceof ISnake);
     }
 
     @Override

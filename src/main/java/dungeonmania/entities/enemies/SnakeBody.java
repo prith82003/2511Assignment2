@@ -1,6 +1,5 @@
 package dungeonmania.entities.enemies;
 
-import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.entities.Entity;
 import dungeonmania.map.GameMap;
@@ -12,18 +11,14 @@ public class SnakeBody extends Enemy implements ISnake {
 
     private SnakeHead head;
 
-    public SnakeBody(Position position, SnakeHead head, GameMap map, int i) {
+    public SnakeBody(Position position, SnakeHead head, GameMap map) {
         super(position, head.getHealth(), head.getAttack());
-        init(position, head, map);
-    }
-
-    protected void init(Position position, SnakeHead head, GameMap map) {
         this.position = position;
         this.prevPosition = position;
+        this.head = head;
 
         map.moveTo(this, position);
 
-        this.head = head;
     }
 
     protected void setHead(SnakeHead head) {
@@ -47,27 +42,16 @@ public class SnakeBody extends Enemy implements ISnake {
         map.moveTo(this, position);
     }
 
-    public Position getPrevPosition() {
-        return prevPosition;
-    }
-
     public boolean isInvisible() {
         return head.isInvisible();
     }
 
     @Override
-    public void move(Game game) {
-    }
-
-    @Override
     public void onDestroy(GameMap map) {
-        if (head.isInvincible()) {
-            System.out.println("Invincible");
+        if (head.isInvincible())
             head.detachBody(this, map);
-        } else {
-            System.out.println("Not invincible");
+        else
             head.removeBody(this, map);
-        }
 
         super.onDestroy(map);
     }

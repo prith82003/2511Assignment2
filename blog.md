@@ -98,16 +98,34 @@ Test list
 Other notes
 [Any other notes]
 
-Choice 2 (Insert choice)
+Choice 2 (Snakes)
 Links to your merge requests
 Assumptions
-[Any assumptions made]
+[
+    1. Snake body parts don't count towards enemy goal
+    2. Sun Stone is a food item to the snake (acts the same as treasure)
+    3. Snakes slither through portals
+]
 Design
-[Design]
+[
+    Snake Body and Snake Head will be their own entities that inherit from enemy. Since snake head is the one in charge of movement, it will 
+    inherit from MovingEnemy. Snake head will have a list of parts that belong to it and battle statistics. Snake body will keep track of its head
+    and return the head's statistics and attributes when necessary. The snake splitting and dying will be called in the onDestroy method in the
+    snake body. Snake body will call a method in snake head which will take care of all the specifics with destroying the body.
+]
 Changes after review
-[Design review/Changes made]
+[
+    Snake body will have to keep track of its previous position in order to update the body part after it. The snake body will have a method to 
+    update the head when the snake gets split.
+]
 Test list
-[Test List]
+[
+    1. Test Basic Snake Creation
+    2. Test Snake Pathfinding and Growth
+    3. Test Snake Dying after Battle
+    4. Test Snake Invisibility
+    5. Test Snake Splitting
+]
 Other notes
 [Any other notes]
 

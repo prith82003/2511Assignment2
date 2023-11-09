@@ -20,13 +20,12 @@ import dungeonmania.entities.collectables.potions.InvisibilityPotion;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
-public class SnakeHead extends Enemy implements ISnake, ItemCollector {
+public class SnakeHead extends MovingEnemy implements ISnake, ItemCollector {
     private final double arrowBuff;
     private final double treasureHealthBuff;
     private final double keyHealthBuff;
 
     private List<SnakeBody> parts;
-    private Position prevPosition;
 
     private boolean isInvincible;
     private boolean isInvisible;
@@ -110,16 +109,15 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
         if (closestFood != null) {
             Position nextPos = game.getMap().dijkstraPathFind(getPosition(), closestFood.getPosition(), this);
             if (nextPos != null) {
-                prevPosition = getPosition();
                 game.getMap().moveTo(this, nextPos);
             }
 
-            nextPos = prevPosition;
+            nextPos = getPreviousPosition();
 
             for (int i = 0; i < parts.size(); i++) {
                 SnakeBody part = parts.get(i);
                 part.updatePosition(nextPos, game.getMap());
-                nextPos = part.getPrevPosition();
+                nextPos = part.getPreviousPosition();
             }
         }
 
@@ -129,14 +127,12 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
         foodToEat = false;
     }
 
-    private static int pieces = 0;
-
     private void onEat(GameMap map) {
-        Position newPos = prevPosition;
+        Position newPos = getPreviousPosition();
         if (parts.size() > 0)
-            newPos = parts.get(parts.size() - 1).getPrevPosition();
+            newPos = parts.get(parts.size() - 1).getPreviousPosition();
 
-        SnakeBody newPart = new SnakeBody(newPos, this, map, pieces++);
+        SnakeBody newPart = new SnakeBody(newPos, this, map);
         parts.add(newPart);
     }
 
@@ -173,20 +169,25 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
 
     @Override
     public void onDestroy(GameMap map) {
-        if (parts.size() > 0)
-            map.destroyEntity(parts.get(0));
-        super.onDestroy(map);
         isInvincible = false;
         isInvisible = false;
+        for (int i = parts.size() - 1; i >= 0; i--) {
+            SnakeBody part = parts.get(i);
+            parts.remove(i);
+            map.destroyEntity(part);
+        }
+        super.onDestroy(map);
     }
 
     protected void removeBody(SnakeBody part, GameMap map) {
         int indexOfTarget = parts.indexOf(part);
         if (indexOfTarget != -1) {
             List<SnakeBody> partsToRemove = new ArrayList<>();
+
             for (int i = indexOfTarget + 1; i < parts.size(); i++) {
                 partsToRemove.add(parts.get(i));
             }
+
             partsToRemove.forEach(map::destroyEntity);
             parts.subList(indexOfTarget + 1, parts.size()).clear();
         }
@@ -195,27 +196,21 @@ public class SnakeHead extends Enemy implements ISnake, ItemCollector {
     protected void detachBody(SnakeBody part, GameMap map) {
         int indexOfTarget = parts.indexOf(part);
         if (indexOfTarget != -1 && indexOfTarget < parts.size() - 1) {
-            // Remove the body part after the target part.
             SnakeBody partToDestroy = parts.remove(indexOfTarget + 1);
             map.destroyEntity(partToDestroy);
 
-            // The new snake head is created at the position of the removed part.
             var spawnPos = partToDestroy.getPosition();
             List<SnakeBody> newBodyParts = new ArrayList<>();
-            // If there are additional body parts after the destroyed one, add them to the new snake head.
             if (indexOfTarget + 1 < parts.size()) {
                 newBodyParts = new ArrayList<>(parts.subList(indexOfTarget + 1, parts.size()));
 
-                // Clear the parts from the original list.
                 parts.subList(indexOfTarget + 1, parts.size()).clear();
             }
 
             SnakeHead newHead = new SnakeHead(spawnPos, this, newBodyParts);
 
-            // Add the new snake head to the map.
             map.addEntity(newHead);
 
-            // Register the new snake head's movement.
             map.getGame().register(() -> newHead.move(map.getGame()), Game.AI_MOVEMENT, newHead.getId());
         }
     }

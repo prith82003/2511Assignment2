@@ -16,7 +16,8 @@ import dungeonmania.entities.Player;
 import dungeonmania.entities.Portal;
 import dungeonmania.entities.Switch;
 import dungeonmania.entities.collectables.Bomb;
-import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.entities.enemies.ISnake;
+import dungeonmania.entities.enemies.MovingEnemy;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
@@ -27,6 +28,10 @@ public class GameMap {
     private Player player;
     private static GameMap instance;
 
+    public GameMap() {
+        instance = this;
+    }
+
     /**
      * Initialise the game map
      * 1. pair up portals
@@ -36,7 +41,6 @@ public class GameMap {
      * 5. more...
      */
     public void init() {
-        instance = this;
         initPairPortals();
         initRegisterMovables();
         initRegisterSpawners();
@@ -76,7 +80,7 @@ public class GameMap {
     }
 
     private void initRegisterMovables() {
-        List<Enemy> enemies = getEntities(Enemy.class);
+        List<MovingEnemy> enemies = getEntities(MovingEnemy.class);
         enemies.forEach(e -> {
             game.register(() -> e.move(game), Game.AI_MOVEMENT, e.getId());
         });
@@ -94,6 +98,9 @@ public class GameMap {
         if (!canMoveTo(entity, position))
             return;
 
+        // System.out.println("!!!!\n!!!!Entity: " + entity);
+        // // print stack trace to stdout
+        // new Exception().printStackTrace();
         triggerMovingAwayEvent(entity);
         removeNode(entity);
         entity.setPosition(position);
@@ -102,6 +109,7 @@ public class GameMap {
     }
 
     public void moveTo(Entity entity, Direction direction) {
+
         if (!canMoveTo(entity, Position.translateBy(entity.getPosition(), direction)))
             return;
         triggerMovingAwayEvent(entity);
@@ -144,12 +152,14 @@ public class GameMap {
     public int getDijkstraDistance(Position src, Position dest, Entity entity) {
         int distance = 0;
         Position curr = src;
+        Position prev = curr;
         while (!Position.isAdjacent(dest, curr)) {
             curr = dijkstraPathFind(curr, dest, entity, true);
 
-            if (curr == null)
+            if (curr == prev)
                 return Integer.MAX_VALUE;
 
+            prev = curr;
             distance++;
         }
 
@@ -161,7 +171,7 @@ public class GameMap {
     }
 
     public Position dijkstraPathFind(Position src, Position dest, Entity entity, boolean forceInvalid) {
-        // if inputs are invalid, don't move
+        // if inputs are invalid, don't move (overrided when called by getDistance since src node will mostly be empty)
         if (!forceInvalid && (!nodes.containsKey(src) || !nodes.containsKey(dest)))
             return src;
 
@@ -182,10 +192,12 @@ public class GameMap {
             if (curr.equals(dest) || dist.get(curr) > 200)
                 break;
             // check portal
-            if (nodes.containsKey(curr) && nodes.get(curr).getEntities().stream().anyMatch(Portal.class::isInstance)) {
+            if (nodes.containsKey(curr) && nodes.get(curr).getEntities().stream().anyMatch(Portal.class::isInstance)
+                    && !(entity instanceof ISnake)) {
                 Portal portal = nodes.get(curr).getEntities().stream().filter(Portal.class::isInstance)
                         .map(Portal.class::cast).collect(Collectors.toList()).get(0);
                 List<Position> teleportDest = portal.getDestPositions(this, entity);
+
                 teleportDest.stream().filter(p -> !visited.containsKey(p)).forEach(p -> {
                     dist.put(p, dist.get(curr));
                     prev.put(p, prev.get(curr));
@@ -212,7 +224,7 @@ public class GameMap {
         }
 
         if (dist.get(dest) == Integer.MAX_VALUE)
-            return null;
+            return src;
 
         Position ret = dest;
         if (prev.get(ret) == null || ret.equals(src))
