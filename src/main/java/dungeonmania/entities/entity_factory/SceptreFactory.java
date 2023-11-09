@@ -7,13 +7,10 @@ import dungeonmania.entities.buildables.Sceptre;
 import dungeonmania.util.Position;
 
 public class SceptreFactory implements IFactory {
-    private int mindControlDuration;
-
     @Override
     public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         int sceptreDurability = config.optInt("sceptre_durability");
         int mindControlDuration = config.optInt("mind_control_duration");
         return new Sceptre(sceptreDurability, mindControlDuration);
     }
-
 }

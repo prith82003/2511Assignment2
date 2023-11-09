@@ -51,9 +51,6 @@ public class BuildMaterial implements IBuildMaterial {
         }
 
         if (inventory.getEntities(item).size() >= amount) {
-            if (item.equals(SunStone.class)) {
-                System.out.println("SUNSTONE");
-            }
             if (remove) {
                 inventory.removeType(item, amount);
             }

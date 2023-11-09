@@ -10,6 +10,5 @@ public class MidnightArmourBuildable extends BuildableRecipe {
     public MidnightArmourBuildable() {
         super(new AndBuildMaterial(new BuildMaterial(Sword.class, NUM_SWORDS),
                 new BuildMaterial(SunStone.class, NUM_SUNSTONE)));
-        // IF THERE ARE NO ZOMBIES THEN BUILD
     }
 }

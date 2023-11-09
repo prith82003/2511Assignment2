@@ -1,7 +1,8 @@
 package dungeonmania.entities.buildables;
 
-import dungeonmania.Game;
-import dungeonmania.battles.BattleStatistics;
+// import dungeonmania.entities.Player;
+// import dungeonmania.entities.inventory.Inventory;
+// import dungeonmania.entities.inventory.InventoryItem;
 
 public class Sceptre extends Buildable {
     private int durability;
@@ -13,22 +14,12 @@ public class Sceptre extends Buildable {
         this.mindControlDuration = mindControlDuration;
     }
 
-    @Override
-    public void use(Game game) {
-        durability--;
-        if (durability <= 0) {
-            game.getPlayer().remove(this);
-        }
-    }
-
-    @Override
-    public BattleStatistics applyBuff(BattleStatistics origin) {
-        return origin;
-    }
-
-    @Override
     public int getDurability() {
         return durability;
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
     }
 
     public int getMindControlDuration() {

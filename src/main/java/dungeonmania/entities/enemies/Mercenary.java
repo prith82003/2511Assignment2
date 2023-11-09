@@ -12,10 +12,13 @@ import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.InvisibilityPotion;
 import dungeonmania.entities.inventory.Inventory;
+import dungeonmania.entities.inventory.InventoryItem;
 import dungeonmania.map.GameMap;
 import dungeonmania.util.Position;
 
+import java.util.ArrayList;
 import java.util.List;
+// import java.util.stream.Collectors;
 
 public class Mercenary extends MovingEnemy implements Interactable {
     public static final int DEFAULT_BRIBE_AMOUNT = 1;
@@ -31,6 +34,7 @@ public class Mercenary extends MovingEnemy implements Interactable {
     private double allyDefence;
     private boolean allied = false;
     private boolean isAdjacentToPlayer = false;
+    private boolean mindControlled = false;
 
     public Mercenary(Position position, double health, double attack, int bribeAmount, int bribeRadius,
             double allyAttack, double allyDefence) {
@@ -58,37 +62,74 @@ public class Mercenary extends MovingEnemy implements Interactable {
      * @return
      */
     private boolean canBeBribed(Player player) {
-        Inventory inventory = player.getInventory();
-        if (inventory.getFirst(Sceptre.class) != null)
-            int mindControlDuration = inventory.returnFirst(Sceptre.class).getMindControlDuration()
-            return true;
-
+        System.out.println("mind controlled: " + mindControlled);
+        if (allied || mindControlled) {
+            return false;
+        }
         return bribeRadius >= 0
                 && (player.countEntityOfType(Treasure.class) - player.countEntityOfType(SunStone.class)) >= bribeAmount;
+    }
+
+    private boolean canBeMindControlled(Player player) {
+        if (allied || mindControlled) {
+            return false;
+        }
+
+        Inventory inventory = player.getInventory();
+        Sceptre sceptre = inventory.getFirst(Sceptre.class);
+
+        return (sceptre != null && sceptre.getDurability() >= 0) ? true : false;
     }
 
     /**
      * bribe the merc
      */
     private void bribe(Player player) {
-        List<Treasure> treasures = player.getInventory().getEntities(Treasure.class);
-        int treasuresUsed = bribeAmount;
-        for (Treasure t : treasures) {
-            if (treasuresUsed <= 0) {
+        allied = true;
+        List<Treasure> treasuresToBribeWith = new ArrayList<>();
+        List<Treasure> inventoryItems = player.getInventory().getEntities(Treasure.class);
+
+        int count = 0;
+        for (Treasure item : inventoryItems) {
+            if (!(item instanceof SunStone) && count < bribeAmount) {
+                treasuresToBribeWith.add(item);
+                count++;
+            }
+            if (count >= bribeAmount) {
                 break;
             }
-            if (t instanceof SunStone)
-                continue;
-            player.use(Treasure.class);
-            treasuresUsed--;
         }
 
+        for (int i = 0; i < treasuresToBribeWith.size(); i++) {
+            player.use(Treasure.class);
+        }
+    }
+
+    private void mindControl(Player player) {
+        mindControlled = true;
+        Inventory inventory = player.getInventory();
+        Sceptre sceptre = inventory.getFirst(Sceptre.class);
+        sceptre.setDurability(sceptre.getDurability() - 1);
+        // System.out.println("AHASJAHSJAHSAJSHAJHAJHAJ");
+        if (sceptre.getDurability() <= 0) {
+            player.use(Sceptre.class);
+        }
+    }
+
+    public boolean isSunstone(InventoryItem item) {
+        return (SunStone.class.isInstance(item));
     }
 
     @Override
     public void interact(Player player, Game game) {
-        allied = true;
-        bribe(player);
+        if (canBeBribed(player)) {
+            bribe(player);
+        } else if (canBeMindControlled(player)) {
+            Inventory inventory = player.getInventory();
+            Sceptre sceptre = inventory.getFirst(Sceptre.class);
+            mindControlDuration = sceptre.getMindControlDuration();
+            mindControl(player);
+        }
         if (!isAdjacentToPlayer && Position.isAdjacent(player.getPosition(), getPosition()))
             isAdjacentToPlayer = true;
     }
@@ -102,17 +143,19 @@ public class Mercenary extends MovingEnemy implements Interactable {
         return nextPos;
     }
 
-    public void mindControl(int mindControlDuration) {
-        mindControlDuration = getMindControlDuration();
-    }
-
     @Override
     public void move(Game game) {
         Position nextPos;
         GameMap map = game.getMap();
         Player player = game.getPlayer();
-        if (allied || mindControlDuration > 0) {
+        checkmindControlled();
+        if (allied) {
             nextPos = moveToward(map, player);
+        } else if (mindControlled) {
+            System.out.println("MIND CONTROL DURATION 1: " + mindControlDuration);
+            nextPos = moveToward(map, player);
+            mindControlDuration--;
+            System.out.println("MIND CONTROL DURATION 2: " + mindControlDuration);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvisibilityPotion) {
             nextPos = moveRandom(map);
         } else if (map.getPlayer().getEffectivePotion() instanceof InvincibilityPotion) {
@@ -122,12 +165,18 @@ public class Mercenary extends MovingEnemy implements Interactable {
             nextPos = map.dijkstraPathFind(getPosition(), player.getPosition(), this);
         }
         map.moveTo(this, nextPos);
-        mindControlDuration--;
+    }
+
+    public void checkmindControlled() {
+        if (mindControlDuration <= 0) {
+            mindControlled = false;
+        }
     }
 
     @Override
     public boolean isInteractable(Player player) {
-        return !allied && canBeBribed(player);
+        System.out.println("IS INTERACTABLE: " + (canBeBribed(player) || canBeMindControlled(player)));
+        return canBeBribed(player) || canBeMindControlled(player);
     }
 
     private static final double ALLIED_MAGNIFIER = 1;

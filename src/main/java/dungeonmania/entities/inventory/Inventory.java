@@ -77,13 +77,6 @@ public class Inventory {
         return null;
     }
 
-    public InventoryItem returnFirst(Class<?> itemType) {
-        for (InventoryItem item : items)
-            if (itemType.isInstance(item))
-                return item;
-        return null;
-    }
-
     public <T extends InventoryItem> int count(Class<T> itemType) {
         int count = 0;
         for (InventoryItem item : items)

@@ -23,5 +23,5 @@
     "zombie_health": 5,
     "mind_control_duration": 2,
     "zombie_spawn_interval": 1,
-    "sceptre_durability": 2
+    "sceptre_durability": 3
 }
