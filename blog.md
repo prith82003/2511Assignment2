@@ -85,29 +85,79 @@ Test list
 Other notes
 [Any other notes]
 
-Choice 1 (Insert choice)
+Choice 1 (Sun Stone & More Buildables)
 Links to your merge requests
 Assumptions
-[Any assumptions made]
+[
+    1. Where there are multiple valid options for creating a buildable entity, keys will take precedence to treasures.
+    2. After the use of a sceptre, meaning the mercenary is mind controlled and interacted with, the durability of it is reduced by one value.
+       The player can mind control mercenaries 'duration' amount of time. When the durability of the sceptre is 0 or less, it will be removed
+       from the inventory. Even after the sceptre is removed, the mercenary can still be mind controlled for 'mindControlDuration' amount of
+       ticks.
+    3. A player can hold as many sceptres in their inventory as long as it was correctly built.
+    4. When trying to open a door with both a key and a sunstone in the player's inventory, the key will be used first.
+    5. When mind control duration is <= 0, the mercenary no longer functions as an 'ally' and will behave as any enemy and is battleable again.
+       If the player mind controls the mercenary again with a sceptre, the duration is reset and fill last for equal ticks amount.
+    6. A mercenary should be bribed in preference to being mind controlled
+    7. The MidnightArmour magnifier is defaulted to 1, since otherwise would be out of scale with attack and defense relative stats.
+]
 Design
-[Design]
+[
+    As SunStone is a 'special form of treasure', the SunStone class extends off Treasure in the collectables folder. Therefore, the Door class
+    was altered to support SunStone being a replacement of Keys.
+
+    The Sceptre and MidnightArmour exists in the buildables folder since they cannot be picked up and have certain build trees. The Mercenary
+    class checks if its interactable with the player and mindControllable, since a mercenary is the only enemy affected by the sceptre. As
+    seen in SceptreBuildable, keys will take precedence before treasure and then finally followed by SunStones.
+]
 Changes after review
-[Design review/Changes made]
+[
+    After review, it is identified that a mercenary should be bribed in preference to being mind controlled. The mercenary will
+    only be mind controlled if the player does not have enough treasure.
+]
 Test list
-[Test List]
+[
+    1. Test sunstone is can be picked up
+    2. Test sunstone can open door
+    3. Test sunstone cant open second door with different key
+    4. Test sceptre can be built
+    5. Test sceptre can be built up with only wood and sunstone
+    6. Test sceptre can mindControls mercenary and durability
+    7. Test MidnightArmour can be built
+    8. Test MidnightArmour increases attack damage
+    9. Test MidnightArmour cannot be built when zombies present
+]
 Other notes
 [Any other notes]
 
-Choice 2 (Insert choice)
+Choice 2 (Snakes)
 Links to your merge requests
 Assumptions
-[Any assumptions made]
+[
+    1. Snake body parts don't count towards enemy goal
+    2. Sun Stone is a food item to the snake (acts the same as treasure)
+    3. Snakes slither through portals
+]
 Design
-[Design]
+[
+    Snake Body and Snake Head will be their own entities that inherit from enemy. Since snake head is the one in charge of movement, it will
+    inherit from MovingEnemy. Snake head will have a list of parts that belong to it and battle statistics. Snake body will keep track of its head
+    and return the head's statistics and attributes when necessary. The snake splitting and dying will be called in the onDestroy method in the
+    snake body. Snake body will call a method in snake head which will take care of all the specifics with destroying the body.
+]
 Changes after review
-[Design review/Changes made]
+[
+    Snake body will have to keep track of its previous position in order to update the body part after it. The snake body will have a method to
+    update the head when the snake gets split.
+]
 Test list
-[Test List]
+[
+    1. Test Basic Snake Creation
+    2. Test Snake Pathfinding and Growth
+    3. Test Snake Dying after Battle
+    4. Test Snake Invisibility
+    5. Test Snake Splitting
+]
 Other notes
 [Any other notes]
 

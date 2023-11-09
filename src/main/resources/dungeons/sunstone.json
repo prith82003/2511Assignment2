@@ -1,27 +1,37 @@
 {
     "entities": [
         {
-            "type": "player",
             "x": 1,
-            "y": 1
+            "y": 0,
+            "type": "sun_stone"
         },
         {
-            "type": "zombie_toast",
-            "x": 2,
-            "y": 1
+            "x": 1,
+            "y": 1,
+            "type": "wood"
         },
         {
-            "type": "zombie_toast_spawner",
-            "x": 3,
-            "y": 1
+            "x": 1,
+            "y": 2,
+            "type": "sun_stone"
         },
         {
-            "type": "sword",
-            "x": 2,
-            "y": 2
+            "x": 1,
+            "y": 3,
+            "type": "wood"
+        },
+        {
+            "x": 1,
+            "y": 4,
+            "type": "player"
+        },
+        {
+            "x": 8,
+            "y": 4,
+            "type": "mercenary"
         }
     ],
     "goal-condition": {
-        "goal": "enemies"
+        "goal": "exit"
     }
 }

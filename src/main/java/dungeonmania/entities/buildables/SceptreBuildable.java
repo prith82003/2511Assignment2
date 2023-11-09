@@ -18,8 +18,7 @@ public class SceptreBuildable extends BuildableRecipe {
                 new OrBuildMaterial(new BuildMaterial(Wood.class, NUM_WOOD),
                         new BuildMaterial(Arrow.class, NUM_ARROWS)),
                 new OrBuildMaterial(new BuildMaterial(Key.class, NUM_KEYS),
-                        new BuildMaterial(Treasure.class, NUM_TREASURE)
-                // new BuildMaterial(SunStone.class, NUM_SUNSTONE),
-                ), new BuildMaterial(SunStone.class, NUM_SUNSTONE)));
+                        new BuildMaterial(Treasure.class, NUM_TREASURE)),
+                new BuildMaterial(SunStone.class, NUM_SUNSTONE)));
     }
 }

@@ -1,9 +1,5 @@
 package dungeonmania.entities.buildables;
 
-// import dungeonmania.entities.Player;
-// import dungeonmania.entities.inventory.Inventory;
-// import dungeonmania.entities.inventory.InventoryItem;
-
 public class Sceptre extends Buildable {
     private int durability;
     private int mindControlDuration;

@@ -56,14 +56,6 @@ public class BattleStatistics {
             double damageOnSelf = target.getMagnifier() * (target.getAttack() - self.getDefence()) / self.getReducer();
             double damageOnTarget = self.getMagnifier() * (self.getAttack() - target.getDefence())
                     / target.getReducer();
-            // System.out.println("Damage on Target: " + damageOnTarget + " = " + self.getMagnifier() + " * ("
-            //         + self.getAttack() + "-" + target.getDefence() + ") / " + target.getReducer());
-            // System.out.println("Damage on Self: " + damageOnSelf + " = " + target.getMagnifier() + " * ("
-            //         + target.getAttack() + "-" + self.getDefence() + ") / " + self.getReducer());
-            // System.out.println("Self Attack: " + self.getAttack());
-            // System.out.println("Target Attack: " + target.getAttack());
-            // System.out.println("Self Health: " + self.getHealth());
-            // System.out.println("Target Health: " + target.getHealth() + "\n");
             self.setHealth(self.getHealth() - damageOnSelf);
             target.setHealth(target.getHealth() - damageOnTarget);
             rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
