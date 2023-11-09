@@ -4,9 +4,10 @@ import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
 import dungeonmania.entities.BattleItem;
 import dungeonmania.entities.collectables.Collectable;
+import dungeonmania.entities.enemies.ISnakeFood;
 import dungeonmania.util.Position;
 
-public abstract class Potion extends Collectable implements BattleItem {
+public abstract class Potion extends Collectable implements BattleItem, ISnakeFood {
     private int duration;
 
     public Potion(Position position, int duration) {

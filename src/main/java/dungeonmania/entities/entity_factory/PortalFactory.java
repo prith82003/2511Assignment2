@@ -7,7 +7,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.Portal;
 import dungeonmania.util.Position;
 
-public class PortalFactory implements IFactory {
+class PortalFactory implements IFactory {
     @Override
     public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         return new Portal(pos, ColorCodedType.valueOf(jsonEntity.getString("colour")));

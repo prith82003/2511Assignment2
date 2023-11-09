@@ -6,7 +6,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.util.Position;
 
-public class InvincibilityPotionFactory implements IFactory {
+class InvincibilityPotionFactory implements IFactory {
     @Override
     public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         int invincibilityPotionDuration = config.optInt("invincibility_potion_duration",

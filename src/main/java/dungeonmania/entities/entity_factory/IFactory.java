@@ -5,6 +5,6 @@ import org.json.JSONObject;
 import dungeonmania.entities.Entity;
 import dungeonmania.util.Position;
 
-public interface IFactory {
+interface IFactory {
     public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity);
 }

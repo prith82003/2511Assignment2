@@ -46,6 +46,7 @@ public final class EntityFactory {
             put("key", new KeyFactory());
             put("bow", new BowFactory());
             put("shield", new ShieldFactory());
+            put("snake_head", new SnakeHeadFactory());
         }
     };
 
