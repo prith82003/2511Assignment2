@@ -248,8 +248,9 @@ public class GameMap {
     public void destroyEntity(Entity entity) {
         removeNode(entity);
 
-        if (entity instanceof IDestroyable)
+        if (entity instanceof IDestroyable) {
             ((IDestroyable) entity).onDestroy(this);
+        }
     }
 
     public void addEntity(Entity entity) {

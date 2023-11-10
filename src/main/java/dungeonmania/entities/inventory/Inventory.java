@@ -12,7 +12,9 @@ import dungeonmania.entities.Player;
 import dungeonmania.entities.buildables.Bow;
 import dungeonmania.entities.buildables.BowBuildable;
 import dungeonmania.entities.buildables.BuildableRecipe;
+import dungeonmania.entities.buildables.MidnightArmourBuildable;
 import dungeonmania.entities.buildables.ShieldBuildable;
+import dungeonmania.entities.buildables.SceptreBuildable;
 import dungeonmania.entities.collectables.Sword;
 import dungeonmania.entities.entity_factory.EntityFactory;
 import dungeonmania.util.Position;
@@ -24,6 +26,8 @@ public class Inventory {
         {
             put("bow", new BowBuildable());
             put("shield", new ShieldBuildable());
+            put("sceptre", new SceptreBuildable());
+            put("midnight_armour", new MidnightArmourBuildable());
         }
     };
 
@@ -56,13 +60,13 @@ public class Inventory {
             if (buildables.get(entity).canConstruct(this, false))
                 result.add(entity);
         }
-
         return result;
     }
 
     public InventoryItem checkBuildCriteria(Player p, boolean remove, String entity, EntityFactory factory) {
-        if (buildables.get(entity).canConstruct(p.getInventory(), remove))
+        if (buildables.get(entity).canConstruct(p.getInventory(), remove)) {
             return (InventoryItem) factory.createEntity(entity, Position.ZERO);
+        }
 
         return null;
     }
@@ -107,5 +111,4 @@ public class Inventory {
             return getFirst(Bow.class);
         return weapon;
     }
-
 }

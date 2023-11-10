@@ -16,6 +16,8 @@ public class BattleStatistics {
     private boolean invincible;
     private boolean enabled;
 
+    int numEnemiesKilled;
+
     BattleStatistics(double health, double attack, double defence, double attackMagnifier, double damageReducer,
             boolean isInvincible, boolean isEnabled) {
         this.health = health;
@@ -25,6 +27,7 @@ public class BattleStatistics {
         this.reducer = damageReducer;
         this.invincible = isInvincible;
         this.enabled = isEnabled;
+        this.numEnemiesKilled = 0;
     }
 
     public static List<BattleRound> battle(BattleStatistics self, BattleStatistics target) {
@@ -46,12 +49,19 @@ public class BattleStatistics {
             target.setHealth(target.getHealth() - damageOnTarget);
             rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
         }
+
+        if (self.health > 0)
+            self.numEnemiesKilled++;
+        else
+            target.numEnemiesKilled++;
+
         return rounds;
     }
 
     public static BattleStatistics applyBuff(BattleStatistics origin, BattleStatistics buff) {
         return new BattleStatistics(origin.health + buff.health, origin.attack + buff.attack,
-                origin.defence + buff.defence, origin.magnifier, origin.reducer, buff.isInvincible(), buff.isEnabled());
+                origin.defence + buff.defence, origin.magnifier * buff.magnifier, origin.reducer * buff.reducer,
+                buff.isInvincible(), buff.isEnabled());
     }
 
     public double getHealth() {
@@ -108,5 +118,9 @@ public class BattleStatistics {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public int getNumEnemiesKilled() {
+        return numEnemiesKilled;
     }
 }

@@ -189,4 +189,8 @@ public class Player extends Entity implements Battleable, IOverlappable, ItemCol
         }
         return origin;
     }
+
+    public int getNumEnemiesKilled() {
+        return battleStatistics.getNumEnemiesKilled();
+    }
 }
