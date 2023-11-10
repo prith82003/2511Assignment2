@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Queue;
 
 import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.BattleStatisticsBuilder;
 import dungeonmania.battles.Battleable;
 import dungeonmania.entities.collectables.Bomb;
+import dungeonmania.entities.collectables.Collectable;
 import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.entities.collectables.potions.InvincibilityPotion;
 import dungeonmania.entities.collectables.potions.Potion;
@@ -21,7 +23,7 @@ import dungeonmania.map.GameMap;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class Player extends Entity implements Battleable, IOverlappable {
+public class Player extends Entity implements Battleable, IOverlappable, ItemCollector {
     public static final double DEFAULT_ATTACK = 5.0;
     public static final double DEFAULT_HEALTH = 5.0;
     private BattleStatistics battleStatistics;
@@ -36,8 +38,11 @@ public class Player extends Entity implements Battleable, IOverlappable {
 
     public Player(Position position, double health, double attack) {
         super(position);
-        battleStatistics = new BattleStatistics(health, attack, 0, BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER,
-                BattleStatistics.DEFAULT_PLAYER_DAMAGE_REDUCER);
+        BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+        builder.setHealth(health).setAttack(attack).setMagnifier(BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER)
+                .setReducer(BattleStatistics.DEFAULT_PLAYER_DAMAGE_REDUCER);
+
+        battleStatistics = builder.build();
         inventory = new Inventory();
         state = new BaseState(this);
     }
@@ -59,7 +64,7 @@ public class Player extends Entity implements Battleable, IOverlappable {
     }
 
     public boolean build(String entity, EntityFactory factory) {
-        InventoryItem item = inventory.checkBuildCriteria(this, true, entity.equals("shield"), factory);
+        InventoryItem item = inventory.checkBuildCriteria(this, true, entity, factory);
         if (item == null)
             return false;
         return inventory.add(item);
@@ -90,7 +95,8 @@ public class Player extends Entity implements Battleable, IOverlappable {
         return inventory.getEntity(itemUsedId);
     }
 
-    public boolean pickUp(Entity item) {
+    @Override
+    public boolean pickUp(Collectable item) {
         if (item instanceof Treasure)
             collectedTreasureCount++;
         return inventory.add((InventoryItem) item);
@@ -161,11 +167,25 @@ public class Player extends Entity implements Battleable, IOverlappable {
         return inventory.count(itemType);
     }
 
+    private static final double INVINCIBLE_MAGNIFIER = 1;
+    private static final double INVINCIBLE_REDUCER = 1;
+    private static final boolean INVINCIBLE_INVINCIBLE = true;
+    private static final boolean INVINCIBLE_ENABLED = true;
+
+    private static final boolean INVISIBILE_ENABLED = false;
+
     public BattleStatistics applyBuff(BattleStatistics origin) {
         if (state.isInvincible()) {
-            return BattleStatistics.applyBuff(origin, new BattleStatistics(0, 0, 0, 1, 1, true, true));
+            BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+            builder.setMagnifier(INVINCIBLE_MAGNIFIER).setReducer(INVINCIBLE_REDUCER)
+                    .setInvincible(INVINCIBLE_INVINCIBLE).setEnabled(INVINCIBLE_ENABLED);
+
+            return BattleStatistics.applyBuff(origin, builder.build());
         } else if (state.isInvisible()) {
-            return BattleStatistics.applyBuff(origin, new BattleStatistics(0, 0, 0, 1, 1, false, false));
+            BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+            builder.setMagnifier(INVINCIBLE_MAGNIFIER).setReducer(INVINCIBLE_REDUCER).setEnabled(INVISIBILE_ENABLED);
+
+            return BattleStatistics.applyBuff(origin, builder.build());
         }
         return origin;
     }

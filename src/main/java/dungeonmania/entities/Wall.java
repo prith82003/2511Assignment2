@@ -1,6 +1,7 @@
 package dungeonmania.entities;
 
 import dungeonmania.map.GameMap;
+import dungeonmania.entities.enemies.ISnake;
 import dungeonmania.entities.enemies.Spider;
 import dungeonmania.util.Position;
 
@@ -11,6 +12,6 @@ public class Wall extends Entity {
 
     @Override
     public boolean canMoveOnto(GameMap map, Entity entity) {
-        return entity instanceof Spider;
+        return entity instanceof Spider || (entity instanceof ISnake && ((ISnake) entity).isInvisible());
     }
 }

@@ -2,12 +2,13 @@ package dungeonmania.entities.entity_factory;
 
 import org.json.JSONObject;
 
+import dungeonmania.entities.Entity;
 import dungeonmania.entities.enemies.Mercenary;
 import dungeonmania.util.Position;
 
-public class MercenaryFactory implements IFactory {
+class MercenaryFactory implements IFactory {
     @Override
-    public Mercenary constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
+    public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         double mercenaryHealth = config.optDouble("mercenary_health", Mercenary.DEFAULT_HEALTH);
         double mercenaryAttack = config.optDouble("mercenary_attack", Mercenary.DEFAULT_ATTACK);
         double allyAttack = config.optDouble("ally_attack", Mercenary.DEFAULT_HEALTH);

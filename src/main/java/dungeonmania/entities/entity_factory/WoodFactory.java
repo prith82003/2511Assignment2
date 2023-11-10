@@ -6,7 +6,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectables.Wood;
 import dungeonmania.util.Position;
 
-public class WoodFactory implements IFactory {
+class WoodFactory implements IFactory {
     @Override
     public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         return new Wood(pos);

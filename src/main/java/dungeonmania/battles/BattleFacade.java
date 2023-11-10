@@ -19,6 +19,9 @@ import dungeonmania.util.NameConverter;
 public class BattleFacade {
     private List<BattleResponse> battleResponses = new ArrayList<>();
 
+    private static final double BASE_PLAYER_MAGNIFIER = 1;
+    private static final double BASE_PLAYER_REDUCER = 1;
+
     public void battle(Game game, Player player, Enemy enemy) {
         // 0. init
         double initialPlayerHealth = player.getBattleStatistics().getHealth();
@@ -28,7 +31,10 @@ public class BattleFacade {
         // 1. apply buff provided by the game and player's inventory
         // getting buffing amount
         List<BattleItem> battleItems = new ArrayList<>();
-        BattleStatistics playerBuff = new BattleStatistics(0, 0, 0, 1, 1);
+        BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+        builder.setMagnifier(BASE_PLAYER_MAGNIFIER).setReducer(BASE_PLAYER_REDUCER);
+
+        BattleStatistics playerBuff = builder.build();
 
         Potion effectivePotion = player.getEffectivePotion();
         if (effectivePotion != null) {

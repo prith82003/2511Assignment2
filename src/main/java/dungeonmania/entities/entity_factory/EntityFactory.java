@@ -46,6 +46,7 @@ public final class EntityFactory {
             put("key", new KeyFactory());
             put("bow", new BowFactory());
             put("shield", new ShieldFactory());
+            put("snake_head", new SnakeHeadFactory());
         }
     };
 
@@ -60,7 +61,6 @@ public final class EntityFactory {
     }
 
     public Entity createEntity(String entityType, Position pos) {
-        System.out.println("entityType: " + entityType);
         return ENTITY_MAP.get(entityType).constructEntity(pos, config, null);
     }
 

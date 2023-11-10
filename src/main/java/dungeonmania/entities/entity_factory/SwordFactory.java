@@ -6,7 +6,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectables.Sword;
 import dungeonmania.util.Position;
 
-public class SwordFactory implements IFactory {
+class SwordFactory implements IFactory {
     @Override
     public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         double swordAttack = config.optDouble("sword_attack", Sword.DEFAULT_ATTACK);

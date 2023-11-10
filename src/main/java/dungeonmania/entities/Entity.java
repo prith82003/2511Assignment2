@@ -26,24 +26,14 @@ public abstract class Entity {
         this.facing = null;
     }
 
+    /**
+     * Returns if an entity can move onto this entity.
+     * @param map The active map
+     * @param entity The entity that wants to move onto this entity
+     * @return If the entity can move onto this entity
+     */
     public boolean canMoveOnto(GameMap map, Entity entity) {
         return false;
-    }
-
-    // use setPosition
-    @Deprecated(forRemoval = true)
-    public void translate(Direction direction) {
-        previousPosition = this.position;
-        this.position = Position.translateBy(this.position, direction);
-        if (!previousPosition.equals(this.position)) {
-            previousDistinctPosition = previousPosition;
-        }
-    }
-
-    // use setPosition
-    @Deprecated(forRemoval = true)
-    public void translate(Position offset) {
-        this.position = Position.translateBy(this.position, offset);
     }
 
     public Position getPosition() {
