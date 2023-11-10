@@ -16,6 +16,8 @@ public class BattleStatistics {
     private boolean invincible;
     private boolean enabled;
 
+    int numEnemiesKilled;
+
     BattleStatistics(double health, double attack, double defence, double attackMagnifier, double damageReducer,
             boolean isInvincible, boolean isEnabled) {
         this.health = health;
