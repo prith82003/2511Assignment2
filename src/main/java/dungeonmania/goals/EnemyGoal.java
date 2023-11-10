@@ -22,6 +22,6 @@ public class EnemyGoal implements Goal {
 
     @Override
     public String toString(Game game) {
-        return (this.achieved(game) ? "" : ":enemy");
+        return (this.achieved(game) ? "" : ":enemies");
     }
 }
