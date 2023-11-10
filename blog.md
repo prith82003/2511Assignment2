@@ -75,26 +75,68 @@ Task 2) Evolution of Requirements 👽
 a) Microevolution - Enemy Goal
 Links to your merge requests
 Assumptions
-[Any assumptions made]
+[
+    1. Zombie Toast Spawner Should be destroyed after interacted with
+]
 Design
-[Design]
+[
+    Design involves creating a new enemyGoal class in goals package, this should inherit Goal and as such implement achieved and toString.
+    The achieved function will getEntities from game, providing the ZombieToastSpawner class as a filter. If the list is empty then the goal is partially achieved. Next it will call a function in game which will return the number of enemies the player has killed. If this number is greater than or equal to the goal number then the goal is achieved. 
+]
 Changes after review
 [Design review/Changes made]
 Test list
-[Test List]
+[
+    1. Test Basic enemy Goal
+    2. Test Enemy Goal with Exit Goal
+    3. Test Enemy Goal with Spawner in Map
+    4. Test Enemy Goal with Spawner in Map and Exit Goal
+]
 Other notes
 [Any other notes]
 
-Choice 1 (Insert choice)
+Choice 1 (Sun Stone & More Buildables)
 Links to your merge requests
 Assumptions
-[Any assumptions made]
+[
+    1. Where there are multiple valid options for creating a buildable entity, keys will take precedence to treasures.
+    2. After the use of a sceptre, meaning the mercenary is mind controlled and interacted with, the durability of it is reduced by one value.
+       The player can mind control mercenaries 'duration' amount of time. When the durability of the sceptre is 0 or less, it will be removed
+       from the inventory. Even after the sceptre is removed, the mercenary can still be mind controlled for 'mindControlDuration' amount of
+       ticks.
+    3. A player can hold as many sceptres in their inventory as long as it was correctly built.
+    4. When trying to open a door with both a key and a sunstone in the player's inventory, the key will be used first.
+    5. When mind control duration is <= 0, the mercenary no longer functions as an 'ally' and will behave as any enemy and is battleable again.
+       If the player mind controls the mercenary again with a sceptre, the duration is reset and fill last for equal ticks amount.
+    6. A mercenary should be bribed in preference to being mind controlled
+    7. The MidnightArmour magnifier is defaulted to 1, since otherwise would be out of scale with attack and defense relative stats.
+]
 Design
-[Design]
+[
+    As SunStone is a 'special form of treasure', the SunStone class extends off Treasure in the collectables folder. Therefore, the Door class
+    was altered to support SunStone being a replacement of Keys.
+
+    The Sceptre and MidnightArmour exists in the buildables folder since they cannot be picked up and have certain build trees. The Mercenary
+    class checks if its interactable with the player and mindControllable, since a mercenary is the only enemy affected by the sceptre. As
+    seen in SceptreBuildable, keys will take precedence before treasure and then finally followed by SunStones.
+]
 Changes after review
-[Design review/Changes made]
+[
+    After review, it is identified that a mercenary should be bribed in preference to being mind controlled. The mercenary will
+    only be mind controlled if the player does not have enough treasure.
+]
 Test list
-[Test List]
+[
+    1. Test sunstone is can be picked up
+    2. Test sunstone can open door
+    3. Test sunstone cant open second door with different key
+    4. Test sceptre can be built
+    5. Test sceptre can be built up with only wood and sunstone
+    6. Test sceptre can mindControls mercenary and durability
+    7. Test MidnightArmour can be built
+    8. Test MidnightArmour increases attack damage
+    9. Test MidnightArmour cannot be built when zombies present
+]
 Other notes
 [Any other notes]
 
