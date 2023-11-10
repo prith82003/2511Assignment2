@@ -1,7 +1,8 @@
 Task 1) Code Analysis and Refactoring ⛏️
 
 a) From DRY to Design Patterns
-Links to your merge requests
+Links to your merge requests:
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/1
 
 i. Look inside src/main/java/dungeonmania/entities/enemies. Where can you notice an instance of repeated code? Note down the particular offending lines/methods/fields.
 
@@ -23,6 +24,7 @@ Identify one place where the Observer Pattern is present in the codebase, and ou
 
 c) Inheritance Design
 Links to your merge requests
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/2
 
 i. Name the code smell present in the above code. Identify all subclasses of Entity which have similar code smells that point towards the same root cause.
 
@@ -34,6 +36,7 @@ ii. Redesign the inheritance structure to solve the problem, in doing so remove 
 
 d) More Code Smells
 Links to your merge requests
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/3
 
 i. What design smell is present in the above description?
 
@@ -45,6 +48,7 @@ ii. Refactor the code to resolve the smell and underlying problem causing it.
 
 e) Open-Closed Goals
 Links to your merge requests
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/6
 
 i. Do you think the design is of good quality here? Do you think it complies with the open-closed principle? Do you think the design should be changed?
 
@@ -56,17 +60,21 @@ ii. If you think the design is sufficient as it is, justify your decision. If yo
 
 f) Open Refactoring
 Merge Request 1
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/8
 [Removed all calls of deprecated functions, updated functionality to match with new setPosition function in entity.]
 Merge Request 2
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/9
 [Refactored the way build criteria was checked when building inventory items. Factory pattern was implemented to instantiate new items. 
 Composite pattern was added in order to evaluate if criteria for build materials is met. New buildable items extend Buildable class and 
 must provide their criteria to be built into constructor.]
 Add all other changes you made in the same format here:
 
 Merge Request 3
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/10
 [Refactored Entity creation. Used factory pattern to instantiate new entities. moved EntityFactory to its own folder/package. EntityFactory takes in a string and returns the corresponding entity.]
 
 Merge Request 4
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/11
 [Refactored BattleStatistics to make constructor protected, builder now constructs BattleStatistics. Other classes call BattleStatisticsBuilder and build it up using new constants.]
 
 Task 2) Evolution of Requirements 👽
@@ -74,6 +82,7 @@ Task 2) Evolution of Requirements 👽
 
 a) Microevolution - Enemy Goal
 Links to your merge requests
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/15
 Assumptions
 [
     1. Zombie Toast Spawner Should be destroyed after interacted with
@@ -100,6 +109,7 @@ Other notes
 
 Choice 1 (Sun Stone & More Buildables)
 Links to your merge requests
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/14
 Assumptions
 [
     1. Where there are multiple valid options for creating a buildable entity, keys will take precedence to treasures.
@@ -145,6 +155,7 @@ Other notes
 
 Choice 2 (Snakes)
 Links to your merge requests
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/13
 Assumptions
 [
     1. Snake body parts don't count towards enemy goal
@@ -189,7 +200,14 @@ Other notes
 
 Task 3) Investigation Task ⁉️
 Merge Request 1
-[Briefly explain what you did]
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/14
+[
+    - Bribe radius for mercenaries now calculated by exact distance, and only bribable if inside radius
+    - In battle statistics, the buff magnifiers and buff reducers didn't originally multiple. Now they multiply.
+]
 Merge Request 2
-[Briefly explain what you did]
+https://nw-syd-gitlab.cseunsw.tech/COMP2511/23T3/teams/M11A_PIKACHU/assignment-ii/-/merge_requests/15
+[
+    - Fixed zombie toast spawner so it gets destroyed when interacted with by the player
+]
 Add all other changes you made in the same format here:
