@@ -11,9 +11,7 @@ public class ShieldBuildable extends BuildableRecipe {
 
     public ShieldBuildable() {
         super(new AndBuildMaterial(new BuildMaterial(Wood.class, NUM_WOOD), new OrBuildMaterial(
-                new BuildMaterial(Key.class, NUM_TREASURE), new BuildMaterial(Treasure.class, NUM_TREASURE)
-        // new BuildMaterial(SunStone.class, NUM_TREASURE)
-        )));
+                new BuildMaterial(Key.class, NUM_TREASURE), new BuildMaterial(Treasure.class, NUM_TREASURE))));
     }
 
 }

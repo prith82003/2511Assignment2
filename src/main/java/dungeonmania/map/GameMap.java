@@ -98,9 +98,6 @@ public class GameMap {
         if (!canMoveTo(entity, position))
             return;
 
-        // System.out.println("!!!!\n!!!!Entity: " + entity);
-        // // print stack trace to stdout
-        // new Exception().printStackTrace();
         triggerMovingAwayEvent(entity);
         removeNode(entity);
         entity.setPosition(position);
@@ -148,7 +145,6 @@ public class GameMap {
         return !nodes.containsKey(position) || nodes.get(position).canMoveOnto(this, entity);
     }
 
-    //! Horrible implementation, but it works
     public int getDijkstraDistance(Position src, Position dest, Entity entity) {
         int distance = 0;
         Position curr = src;
