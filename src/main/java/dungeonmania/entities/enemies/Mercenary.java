@@ -83,7 +83,7 @@ public class Mercenary extends MovingEnemy implements Interactable {
         Inventory inventory = player.getInventory();
         Sceptre sceptre = inventory.getFirst(Sceptre.class);
 
-        return (sceptre != null && sceptre.getDurability() >= 0) ? true : false;
+        return (sceptre != null && sceptre.getDurability() >= 0);
     }
 
     /**
