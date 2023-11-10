@@ -36,6 +36,8 @@ public class Player extends Entity implements Battleable, IOverlappable, ItemCol
 
     private PlayerState state;
 
+    private int numEnemiesKilled = 0;
+
     public Player(Position position, double health, double attack) {
         super(position);
         BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
@@ -190,7 +192,11 @@ public class Player extends Entity implements Battleable, IOverlappable, ItemCol
         return origin;
     }
 
+    public void incrementKilled() {
+        numEnemiesKilled++;
+    }
+
     public int getNumEnemiesKilled() {
-        return battleStatistics.getNumEnemiesKilled();
+        return numEnemiesKilled;
     }
 }

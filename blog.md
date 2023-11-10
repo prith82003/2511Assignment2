@@ -93,7 +93,10 @@ Test list
     4. Test Enemy Goal with Spawner in Map and Exit Goal
 ]
 Other notes
-[Any other notes]
+[
+    Changed where the number of enemies killed is stored. Storing in BattleStatistics and incrementing in BattleFacade led to errors, 
+    so it has been changed so that it is incremented in Game.java in the battle function and stored in Player.
+]
 
 Choice 1 (Sun Stone & More Buildables)
 Links to your merge requests

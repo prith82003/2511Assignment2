@@ -86,6 +86,7 @@ public class Game {
         }
         if (enemy.getBattleStatistics().getHealth() <= 0) {
             map.destroyEntity(enemy);
+            player.incrementKilled();
         }
     }
 
