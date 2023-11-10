@@ -75,13 +75,23 @@ Task 2) Evolution of Requirements 👽
 a) Microevolution - Enemy Goal
 Links to your merge requests
 Assumptions
-[Any assumptions made]
+[
+    1. Zombie Toast Spawner Should be destroyed after interacted with
+]
 Design
-[Design]
+[
+    Design involves creating a new enemyGoal class in goals package, this should inherit Goal and as such implement achieved and toString.
+    The achieved function will getEntities from game, providing the ZombieToastSpawner class as a filter. If the list is empty then the goal is partially achieved. Next it will call a function in game which will return the number of enemies the player has killed. If this number is greater than or equal to the goal number then the goal is achieved. 
+]
 Changes after review
 [Design review/Changes made]
 Test list
-[Test List]
+[
+    1. Test Basic enemy Goal
+    2. Test Enemy Goal with Exit Goal
+    3. Test Enemy Goal with Spawner in Map
+    4. Test Enemy Goal with Spawner in Map and Exit Goal
+]
 Other notes
 [Any other notes]
 

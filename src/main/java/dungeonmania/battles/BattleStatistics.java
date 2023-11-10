@@ -50,11 +50,6 @@ public class BattleStatistics {
             rounds.add(new BattleRound(-damageOnSelf, -damageOnTarget));
         }
 
-        if (self.health > 0)
-            self.numEnemiesKilled++;
-        else
-            target.numEnemiesKilled++;
-
         return rounds;
     }
 
@@ -118,6 +113,10 @@ public class BattleStatistics {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    protected void incrementKilled() {
+        numEnemiesKilled++;
     }
 
     public int getNumEnemiesKilled() {
