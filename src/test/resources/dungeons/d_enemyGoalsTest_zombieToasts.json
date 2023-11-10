@@ -132,6 +132,6 @@
     }
   ],
   "goal-condition": {
-    "goal": "enemy_goal"
+    "goal": "enemies"
   }
 }
