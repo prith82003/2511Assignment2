@@ -13,6 +13,10 @@ public class EnemyGoal implements Goal {
     @Override
     public boolean achieved(Game game) {
         int numSpawners = game.getMap().getEntities(ZombieToastSpawner.class).size();
+
+        System.out.println(
+                "numKilled: " + game.getNumEnemiesKilled() + ", Target: " + target + ", numSpawners: " + numSpawners);
+
         return game.getNumEnemiesKilled() >= target && numSpawners == 0;
     }
 
