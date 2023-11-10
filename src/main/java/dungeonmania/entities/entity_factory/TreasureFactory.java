@@ -6,7 +6,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.collectables.Treasure;
 import dungeonmania.util.Position;
 
-public class TreasureFactory implements IFactory {
+class TreasureFactory implements IFactory {
     @Override
     public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         return new Treasure(pos);

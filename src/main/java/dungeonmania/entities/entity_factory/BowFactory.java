@@ -6,7 +6,7 @@ import dungeonmania.entities.Entity;
 import dungeonmania.entities.buildables.Bow;
 import dungeonmania.util.Position;
 
-public class BowFactory implements IFactory {
+class BowFactory implements IFactory {
     @Override
     public Entity constructEntity(Position pos, JSONObject config, JSONObject jsonEntity) {
         int bowDurability = config.optInt("bow_durability");

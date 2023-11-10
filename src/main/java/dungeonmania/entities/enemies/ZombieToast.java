@@ -23,7 +23,6 @@ public class ZombieToast extends MovingEnemy {
             nextPos = moveRandom(map);
         }
         game.getMap().moveTo(this, nextPos);
-
     }
 
 }

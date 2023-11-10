@@ -16,20 +16,7 @@ public class BattleStatistics {
     private boolean invincible;
     private boolean enabled;
 
-    private int numEnemiesKilled = 0;
-
-    public BattleStatistics(double health, double attack, double defence, double attackMagnifier,
-            double damageReducer) {
-        this.health = health;
-        this.attack = attack;
-        this.defence = defence;
-        this.magnifier = attackMagnifier;
-        this.reducer = damageReducer;
-        this.invincible = false;
-        this.enabled = true;
-    }
-
-    public BattleStatistics(double health, double attack, double defence, double attackMagnifier, double damageReducer,
+    BattleStatistics(double health, double attack, double defence, double attackMagnifier, double damageReducer,
             boolean isInvincible, boolean isEnabled) {
         this.health = health;
         this.attack = attack;

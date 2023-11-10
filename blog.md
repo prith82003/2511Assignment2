@@ -140,14 +140,14 @@ Assumptions
 ]
 Design
 [
-    Snake Body and Snake Head will be their own entities that inherit from enemy. Since snake head is the one in charge of movement, it will
+    Snake Body and Snake Head will be their own entities that inherit from enemy. Since snake head is the one in charge of movement, it will 
     inherit from MovingEnemy. Snake head will have a list of parts that belong to it and battle statistics. Snake body will keep track of its head
     and return the head's statistics and attributes when necessary. The snake splitting and dying will be called in the onDestroy method in the
     snake body. Snake body will call a method in snake head which will take care of all the specifics with destroying the body.
 ]
 Changes after review
 [
-    Snake body will have to keep track of its previous position in order to update the body part after it. The snake body will have a method to
+    Snake body will have to keep track of its previous position in order to update the body part after it. The snake body will have a method to 
     update the head when the snake gets split.
 ]
 Test list
