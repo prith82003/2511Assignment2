@@ -12,7 +12,7 @@ public class GoalFactory {
             put("exit", new ExitGoalFactory());
             put("boulders", new BoulderGoalFactory());
             put("treasure", new TreasureGoalFactory());
-            put("enemy_goal", new EnemyGoalFactory());
+            put("enemies", new EnemyGoalFactory());
         }
     };
 
