@@ -16,8 +16,6 @@ public class BattleStatistics {
     private boolean invincible;
     private boolean enabled;
 
-    private int numEnemiesKilled;
-
     BattleStatistics(double health, double attack, double defence, double attackMagnifier, double damageReducer,
             boolean isInvincible, boolean isEnabled) {
         this.health = health;
@@ -27,7 +25,6 @@ public class BattleStatistics {
         this.reducer = damageReducer;
         this.invincible = isInvincible;
         this.enabled = isEnabled;
-        this.numEnemiesKilled = 0;
     }
 
     public static List<BattleRound> battle(BattleStatistics self, BattleStatistics target) {
@@ -113,13 +110,5 @@ public class BattleStatistics {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    protected void incrementKilled() {
-        numEnemiesKilled++;
-    }
-
-    public int getNumEnemiesKilled() {
-        return numEnemiesKilled;
     }
 }

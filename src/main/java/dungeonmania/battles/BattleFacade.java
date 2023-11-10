@@ -80,9 +80,6 @@ public class BattleFacade {
                 battleItems.stream().map(Entity.class::cast).map(ResponseBuilder::getItemResponse)
                         .collect(Collectors.toList()),
                 initialPlayerHealth, initialEnemyHealth));
-
-        if (player.getBattleStatistics().getHealth() > 0)
-            player.getBattleStatistics().incrementKilled();
     }
 
     public List<BattleResponse> getBattleResponses() {
