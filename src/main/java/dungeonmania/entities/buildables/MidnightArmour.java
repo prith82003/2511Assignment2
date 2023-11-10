@@ -2,6 +2,7 @@ package dungeonmania.entities.buildables;
 
 import dungeonmania.Game;
 import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.BattleStatisticsBuilder;
 import dungeonmania.entities.BattleItem;
 
 public class MidnightArmour extends Buildable implements BattleItem {
@@ -20,7 +21,9 @@ public class MidnightArmour extends Buildable implements BattleItem {
 
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
-        return BattleStatistics.applyBuff(origin, new BattleStatistics(0, attack, defense, 1, 1));
+        BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
+        builder.setAttack(attack).setDefence(defense).setMagnifier(1).setReducer(1);
+        return BattleStatistics.applyBuff(origin, builder.build());
     }
 
     @Override
