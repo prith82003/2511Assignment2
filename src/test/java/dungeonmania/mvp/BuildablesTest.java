@@ -131,7 +131,7 @@ public class BuildablesTest {
 
     @Test
     @Tag("5-6")
-    @DisplayName("Test responsse buildables parameter is a list of buildables that the player can currently build")
+    @DisplayName("Test response buildables parameter is a list of buildables that the player can currently build")
     public void dungeonResponseBuildables() {
         DungeonManiaController dmc;
         dmc = new DungeonManiaController();

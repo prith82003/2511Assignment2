@@ -11,6 +11,7 @@ import dungeonmania.entities.Player;
 import dungeonmania.entities.collectables.Bomb;
 import dungeonmania.entities.collectables.potions.Potion;
 import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.entities.enemies.ZombieToast;
 import dungeonmania.entities.enemies.ZombieToastSpawner;
 import dungeonmania.entities.entity_factory.EntityFactory;
 import dungeonmania.exceptions.InvalidActionException;
@@ -90,9 +91,12 @@ public class Game {
 
     public Game build(String buildable) throws InvalidActionException {
         List<String> buildables = player.getBuildables();
-        System.out.println("Buildables: " + buildables.toString());
         if (!buildables.contains(buildable)) {
             throw new InvalidActionException(String.format("%s cannot be built", buildable));
+        }
+        if (buildables.contains("midnight_armour") && map.getEntities(ZombieToast.class).size() > 0) {
+            throw new InvalidActionException(
+                    String.format("Midnight Armour cannot be built with Zombies on map", buildable));
         }
         registerOnce(() -> player.build(buildable, entityFactory), PLAYER_MOVEMENT, "playerBuildsItem");
         tick();
@@ -227,4 +231,5 @@ public class Game {
     public void destroyEntity(Entity entity) {
         map.destroyEntity(entity);
     }
+
 }

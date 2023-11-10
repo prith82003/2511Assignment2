@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dungeonmania.entities.Entity;
-import dungeonmania.entities.IOverlappable;
 import dungeonmania.entities.Player;
 import dungeonmania.entities.Switch;
 import dungeonmania.map.GameMap;
 
-public class Bomb extends Collectable implements IOverlappable {
+public class Bomb extends Collectable {
     public enum State {
         SPAWNED, INVENTORY, PLACED
     }

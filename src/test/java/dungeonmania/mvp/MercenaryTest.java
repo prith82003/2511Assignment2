@@ -129,12 +129,15 @@ public class MercenaryTest {
 
         // pick up treasure
         res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
+        res = dmc.tick(Direction.RIGHT);
         assertEquals(1, TestUtils.getInventory(res, "treasure").size());
-        assertEquals(new Position(7, 1), getMercPos(res));
+        assertEquals(new Position(5, 1), getMercPos(res));
 
         // attempt bribe
-        assertDoesNotThrow(() -> dmc.interact(mercId));
-        assertEquals(1, TestUtils.getInventory(res, "treasure").size());
+        res = assertDoesNotThrow(() -> dmc.interact(mercId));
+        assertTrue(res.getInventory().isEmpty());
+        assertEquals(0, TestUtils.getInventory(res, "treasure").size());
     }
 
     @Test

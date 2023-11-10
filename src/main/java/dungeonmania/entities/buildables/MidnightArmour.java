@@ -5,33 +5,29 @@ import dungeonmania.battles.BattleStatistics;
 import dungeonmania.battles.BattleStatisticsBuilder;
 import dungeonmania.entities.BattleItem;
 
-public class Bow extends Buildable implements BattleItem {
-    private int durability;
-    private static final double BOW_MAGNIFIER = 2;
-    private static final double BOW_REDUCER = 1;
+public class MidnightArmour extends Buildable implements BattleItem {
+    private int attack;
+    private int defense;
 
-    public Bow(int durability) {
+    public MidnightArmour(int attack, int defense) {
         super(null);
-        this.durability = durability;
+        this.attack = attack;
+        this.defense = defense;
     }
 
     @Override
     public void use(Game game) {
-        durability--;
-        if (durability <= 0) {
-            game.getPlayer().remove(this);
-        }
     }
 
     @Override
     public BattleStatistics applyBuff(BattleStatistics origin) {
         BattleStatisticsBuilder builder = new BattleStatisticsBuilder();
-        builder.setMagnifier(BOW_MAGNIFIER).setReducer(BOW_REDUCER);
+        builder.setAttack(attack).setDefence(defense).setMagnifier(1).setReducer(1);
         return BattleStatistics.applyBuff(origin, builder.build());
     }
 
     @Override
     public int getDurability() {
-        return durability;
+        return Integer.MAX_VALUE;
     }
 }

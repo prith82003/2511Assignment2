@@ -18,19 +18,7 @@ public class BattleStatistics {
 
     private int numEnemiesKilled;
 
-    public BattleStatistics(double health, double attack, double defence, double attackMagnifier,
-            double damageReducer) {
-        this.health = health;
-        this.attack = attack;
-        this.defence = defence;
-        this.magnifier = attackMagnifier;
-        this.reducer = damageReducer;
-        this.invincible = false;
-        this.enabled = true;
-        numEnemiesKilled = 0;
-    }
-
-    public BattleStatistics(double health, double attack, double defence, double attackMagnifier, double damageReducer,
+    BattleStatistics(double health, double attack, double defence, double attackMagnifier, double damageReducer,
             boolean isInvincible, boolean isEnabled) {
         this.health = health;
         this.attack = attack;
@@ -39,7 +27,7 @@ public class BattleStatistics {
         this.reducer = damageReducer;
         this.invincible = isInvincible;
         this.enabled = isEnabled;
-        numEnemiesKilled = 0;
+        this.numEnemiesKilled = 0;
     }
 
     public static List<BattleRound> battle(BattleStatistics self, BattleStatistics target) {
@@ -67,7 +55,8 @@ public class BattleStatistics {
 
     public static BattleStatistics applyBuff(BattleStatistics origin, BattleStatistics buff) {
         return new BattleStatistics(origin.health + buff.health, origin.attack + buff.attack,
-                origin.defence + buff.defence, origin.magnifier, origin.reducer, buff.isInvincible(), buff.isEnabled());
+                origin.defence + buff.defence, origin.magnifier * buff.magnifier, origin.reducer * buff.reducer,
+                buff.isInvincible(), buff.isEnabled());
     }
 
     public double getHealth() {
